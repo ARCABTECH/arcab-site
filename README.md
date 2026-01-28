@@ -1,6 +1,6 @@
-# ARCAB | Estruturas Digitais
+# ARCAB TECH
 
-Site institucional da ARCAB - Soluções em Análise Preditiva, Dashboards, Web Scraping e Desenvolvimento Web.
+Site institucional da ARCAB TECH - Soluções em Análise Preditiva, Dashboards, Web Scraping e Desenvolvimento Web.
 
 ## Stack Tecnológica
 
@@ -78,7 +78,21 @@ arcab-site/
 
 ## Deploy
 
-O projeto está pronto para deploy em plataformas como:
+### GitHub Pages (Configurado)
+
+O projeto está configurado para deploy automático no GitHub Pages com domínio customizado `arcab.com.br`.
+
+**Deploy Automatizado:**
+- Push para branch `main` aciona o workflow automaticamente
+- Build e deploy são feitos via GitHub Actions
+- Site publicado em: https://arcab.com.br
+
+**Configuração:**
+1. O workflow está em `.github/workflows/deploy.yml`
+2. Custom domain configurado via `public/CNAME`
+3. Para configurar DNS, consulte `GUIA_DNS_HOSTINGER.md`
+
+**Outras Plataformas:**
 - [Vercel](https://vercel.com) (recomendado para Next.js)
 - [Netlify](https://netlify.com)
 - Qualquer plataforma que suporte Next.js

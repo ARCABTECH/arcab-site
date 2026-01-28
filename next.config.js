@@ -1,9 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Configuração de imagens (quando necessário)
+  // Configuração para export estático (GitHub Pages)
+  output: 'export',
+  trailingSlash: true,
+  // Configuração de imagens (necessário para export estático)
   images: {
-    formats: ['image/avif', 'image/webp'],
+    unoptimized: true,
   },
 }
 

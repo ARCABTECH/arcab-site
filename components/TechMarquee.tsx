@@ -1,7 +1,20 @@
 import React from 'react';
 
 const technologies = [
-  "PYTHON", "REACT", "TENSORFLOW", "AWS", "DOCKER", "KUBERNETES", "POSTGRESQL", "POWER BI", "NODE.JS", "SCIKIT-LEARN", "NEXT.JS", "GOOGLE CLOUD"
+  // Linguagens e Runtimes
+  "PYTHON", "JAVASCRIPT", "TYPESCRIPT", "SQL", "NODE.JS",
+  // Data Science & ML
+  "PANDAS", "NUMPY", "SCIKIT-LEARN", "TENSORFLOW", "MATPLOTLIB", "SEABORN", "SCIPY", "PLOTLY", "JUPYTER",
+  // Web Frameworks & Libraries
+  "REACT", "NEXT.JS", "VITE", "FLASK", "FASTAPI", "AXIOS",
+  // Frontend
+  "HTML", "CSS", "TAILWIND CSS",
+  // Databases & Cache
+  "POSTGRESQL", "REDIS",
+  // DevOps & Cloud
+  "DOCKER", "KUBERNETES", "AWS", "AZURE", "GOOGLE CLOUD", "GIT",
+  // Tools & Others
+  "SELENIUM", "POWER BI"
 ];
 
 const TechMarquee: React.FC = () => {

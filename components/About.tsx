@@ -1,6 +1,7 @@
 import React from 'react';
 import { ScrollReveal } from './ui/ScrollReveal';
 import { Layers, ShieldCheck, Zap, ArrowDown } from 'lucide-react';
+import { FeaturePillar } from './cards/FeaturePillar';
 
 const About: React.FC = () => {
   return (
@@ -39,35 +40,26 @@ const About: React.FC = () => {
 
                {/* Replacement for Fake Counters: Engineering Pillars */}
                <div className="grid grid-cols-1 gap-6 border-t border-stone-800 pt-8">
-                  <div className="flex items-start gap-4 group">
-                     <div className="p-2 bg-stone-900 border border-stone-800 text-eco-primary group-hover:border-eco-primary transition-colors">
-                        <ShieldCheck size={20} />
-                     </div>
-                     <div>
-                        <h4 className="font-sans font-bold text-lg text-white">Robustez & Segurança</h4>
-                        <p className="font-mono text-xs text-stone-500 mt-1">Arquiteturas resilientes a falhas e protegidas por design.</p>
-                     </div>
-                  </div>
+                  <FeaturePillar
+                    icon={ShieldCheck}
+                    title="Robustez & Segurança"
+                    description="Arquiteturas resilientes a falhas e protegidas por design."
+                    color="primary"
+                  />
                   
-                  <div className="flex items-start gap-4 group">
-                     <div className="p-2 bg-stone-900 border border-stone-800 text-eco-accent group-hover:border-eco-accent transition-colors">
-                        <Zap size={20} />
-                     </div>
-                     <div>
-                        <h4 className="font-sans font-bold text-lg text-white">Performance Real</h4>
-                        <p className="font-mono text-xs text-stone-500 mt-1">Otimização de queries, cache e redução de latência.</p>
-                     </div>
-                  </div>
+                  <FeaturePillar
+                    icon={Zap}
+                    title="Performance Real"
+                    description="Otimização de queries, cache e redução de latência."
+                    color="accent"
+                  />
 
-                  <div className="flex items-start gap-4 group">
-                     <div className="p-2 bg-stone-900 border border-stone-800 text-blue-500 group-hover:border-blue-500 transition-colors">
-                        <Layers size={20} />
-                     </div>
-                     <div>
-                        <h4 className="font-sans font-bold text-lg text-white">Escalabilidade</h4>
-                        <p className="font-mono text-xs text-stone-500 mt-1">Sistemas preparados para crescer junto com sua demanda.</p>
-                     </div>
-                  </div>
+                  <FeaturePillar
+                    icon={Layers}
+                    title="Escalabilidade"
+                    description="Sistemas preparados para crescer junto com sua demanda."
+                    color="blue"
+                  />
                </div>
             </div>
           </ScrollReveal>

@@ -18,12 +18,12 @@ const spaceMono = Space_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'ARCAB | Estruturas Digitais',
+  title: 'ARCAB TECH',
   description: 'Soluções em Análise Preditiva, Dashboards, Web Scraping e Desenvolvimento Web.',
   keywords: ['análise de dados', 'desenvolvimento web', 'dashboards', 'web scraping', 'engenharia de software'],
   authors: [{ name: 'ARCAB' }],
   openGraph: {
-    title: 'ARCAB | Estruturas Digitais',
+    title: 'ARCAB TECH',
     description: 'Soluções em Análise Preditiva, Dashboards, Web Scraping e Desenvolvimento Web.',
     type: 'website',
     locale: 'pt_BR',

@@ -4,7 +4,7 @@ import { MessageCircle } from 'lucide-react';
 const WhatsAppFloat: React.FC = () => {
   return (
     <a
-      href="https://api.whatsapp.com/send?phone=5562991704877"
+      href="https://wa.me/message/HWOCCN2PVH4VG1"
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-6 right-6 z-50 group md:bottom-8 md:right-8"

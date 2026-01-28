@@ -2,8 +2,13 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { BrutalistButton } from './ui/BrutalistButton';
-import { Mail, ArrowRight, ChevronDown, Check } from 'lucide-react';
+import { Mail, ArrowRight, ChevronDown, Check, Loader2 } from 'lucide-react';
 import { ScrollReveal } from './ui/ScrollReveal';
+import { useToast } from './ui/useToast';
+import { ToastContainer } from './ui/Toast';
+import { SectionHeader } from './layout/SectionHeader';
+import { FormField } from './forms/FormField';
+import { CornerDecorators } from './layout/CornerDecorators';
 
 const Contact: React.FC = () => {
   const [formState, setFormState] = useState({
@@ -14,7 +19,13 @@ const Contact: React.FC = () => {
   });
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [lastSubmissionTime, setLastSubmissionTime] = useState<number | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { toasts, showToast, removeToast } = useToast();
+
+  // Rate limiting: máximo 1 envio a cada 30 segundos
+  const RATE_LIMIT_MS = 30000;
 
   const interestOptions = [
     { value: 'analise', label: 'Análise de Dados & BI' },
@@ -50,19 +61,54 @@ const Contact: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Rate limiting check
+    const now = Date.now();
+    if (lastSubmissionTime && (now - lastSubmissionTime) < RATE_LIMIT_MS) {
+      const remainingSeconds = Math.ceil((RATE_LIMIT_MS - (now - lastSubmissionTime)) / 1000);
+      showToast(
+        `Aguarde ${remainingSeconds} segundo${remainingSeconds > 1 ? 's' : ''} antes de enviar novamente.`,
+        'error'
+      );
+      return;
+    }
+
+    // Validação básica
+    if (!formState.name || !formState.email || !formState.service || !formState.message) {
+      showToast('Por favor, preencha todos os campos.', 'error');
+      return;
+    }
+
+    setIsSubmitting(true);
+
     try {
-      const response = await fetch('/api/contact', {
+      const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+      
+      if (!accessKey) {
+        throw new Error('Chave de acesso Web3Forms não configurada');
+      }
+
+      const selectedLabel = interestOptions.find(opt => opt.value === formState.service)?.label || formState.service;
+      
+      const formData = new FormData();
+      formData.append('access_key', accessKey);
+      formData.append('subject', `Nova solicitação: ${selectedLabel}`);
+      formData.append('from_name', formState.name);
+      formData.append('email', formState.email);
+      formData.append('name', formState.name);
+      formData.append('service', selectedLabel);
+      formData.append('message', formState.message);
+
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formState),
+        body: formData,
       });
 
       const data = await response.json();
 
-      if (response.ok) {
-        alert(data.message || 'Mensagem recebida! Entraremos em contato em breve.');
+      if (data.success) {
+        showToast('Mensagem enviada com sucesso! Entraremos em contato em breve.', 'success');
+        setLastSubmissionTime(Date.now());
+        
         // Reset form
         setFormState({
           name: '',
@@ -71,11 +117,16 @@ const Contact: React.FC = () => {
           message: ''
         });
       } else {
-        alert(data.error || 'Erro ao enviar mensagem. Tente novamente.');
+        showToast(
+          data.message || 'Erro ao enviar mensagem. Por favor, tente novamente.',
+          'error'
+        );
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('Erro ao enviar mensagem. Tente novamente.');
+      showToast('Erro ao enviar mensagem. Por favor, tente novamente mais tarde.', 'error');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -86,45 +137,42 @@ const Contact: React.FC = () => {
       <div className="max-w-5xl mx-auto">
         
         <ScrollReveal>
-          <div className="text-center mb-16">
-             <h2 className="font-sans font-medium text-4xl md:text-5xl mb-4">INICIAR UM PROJETO</h2>
-             <p className="font-mono text-stone-500 text-sm max-w-lg mx-auto">
-               Seu sistema precisa de refatoração ou escala?
-               Nossa engenharia avalia a maturidade do seu ecossistema digital para propor a arquitetura ideal.
-             </p>
+          <div className="mb-16">
+            <SectionHeader
+              label=""
+              title="INICIAR UM PROJETO"
+              description="Seu sistema precisa de refatoração ou escala? Nossa engenharia avalia a maturidade do seu ecossistema digital para propor a arquitetura ideal."
+              variant="centered"
+              className="text-center"
+            />
           </div>
         </ScrollReveal>
 
         <ScrollReveal delay={200}>
           <div className="bg-stone-50 border border-stone-200 p-8 md:p-12 relative shadow-sharp-lg">
+            <CornerDecorators size="md" color="border-eco-dark" hoverColor="" />
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
               
               <div className="space-y-6">
-                <div className="group">
-                  <label className="block font-mono text-[10px] font-bold uppercase mb-2 tracking-widest text-stone-400 group-focus-within:text-eco-dark transition-colors">Nome / Empresa</label>
-                  <input 
-                    type="text" 
-                    name="name"
-                    required
-                    value={formState.name}
-                    onChange={handleChange}
-                    className="w-full bg-transparent border-b border-stone-300 py-3 text-lg font-sans text-eco-dark focus:outline-none focus:border-eco-primary transition-colors placeholder-stone-300 rounded-none"
-                    placeholder="Seu nome"
-                  />
-                </div>
+                <FormField
+                  label="Nome / Empresa"
+                  name="name"
+                  type="text"
+                  value={formState.name}
+                  onChange={handleChange}
+                  placeholder="Seu nome"
+                  required
+                />
 
-                <div className="group">
-                  <label className="block font-mono text-[10px] font-bold uppercase mb-2 tracking-widest text-stone-400 group-focus-within:text-eco-dark transition-colors">Email Corporativo</label>
-                  <input 
-                    type="email" 
-                    name="email"
-                    required
-                    value={formState.email}
-                    onChange={handleChange}
-                    className="w-full bg-transparent border-b border-stone-300 py-3 text-lg font-sans text-eco-dark focus:outline-none focus:border-eco-primary transition-colors placeholder-stone-300 rounded-none"
-                    placeholder="email@empresa.com"
-                  />
-                </div>
+                <FormField
+                  label="Email Corporativo"
+                  name="email"
+                  type="email"
+                  value={formState.email}
+                  onChange={handleChange}
+                  placeholder="email@empresa.com"
+                  required
+                />
 
                 {/* Custom Styled Select Component */}
                 <div className="group relative" ref={dropdownRef}>
@@ -174,23 +222,32 @@ const Contact: React.FC = () => {
               </div>
 
               <div className="flex flex-col justify-between">
-                <div className="group mb-8">
-                  <label className="block font-mono text-[10px] font-bold uppercase mb-2 tracking-widest text-stone-400 group-focus-within:text-eco-dark transition-colors">Detalhes do Projeto</label>
-                  <textarea 
+                <div className="mb-8">
+                  <FormField
+                    label="Detalhes do Projeto"
                     name="message"
-                    required
-                    rows={4}
                     value={formState.message}
                     onChange={handleChange}
-                    className="w-full bg-transparent border-b border-stone-300 py-3 text-lg font-sans text-eco-dark focus:outline-none focus:border-eco-primary transition-colors resize-none placeholder-stone-300 rounded-none"
                     placeholder="Descreva brevemente sua necessidade..."
-                  ></textarea>
+                    required
+                    rows={4}
+                    as="textarea"
+                  />
                 </div>
 
                 <div className="flex flex-col gap-4">
-                   <BrutalistButton type="submit" variant="primary" className="w-full justify-between group">
-                    <span>Enviar Solicitação</span>
-                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                   <BrutalistButton 
+                    type="submit" 
+                    variant="primary" 
+                    className="w-full justify-between group"
+                    disabled={isSubmitting}
+                  >
+                    <span>{isSubmitting ? 'Enviando...' : 'Enviar Solicitação'}</span>
+                    {isSubmitting ? (
+                      <Loader2 size={18} className="animate-spin" />
+                    ) : (
+                      <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                    )}
                   </BrutalistButton>
                   
                   <div className="flex items-center justify-center gap-2 text-stone-400 text-xs font-mono mt-2">
@@ -201,13 +258,14 @@ const Contact: React.FC = () => {
               </div>
 
             </form>
-            
-            {/* Decorative Corner */}
-            <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-eco-dark"></div>
-            <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-eco-dark"></div>
           </div>
         </ScrollReveal>
       </div>
+      
+      {/* Toast Container */}
+      {toasts.length > 0 && (
+        <ToastContainer toasts={toasts} removeToast={removeToast} />
+      )}
     </section>
   );
 };
