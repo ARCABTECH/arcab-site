@@ -133,7 +133,7 @@ const Contact: React.FC = () => {
   const selectedLabel = interestOptions.find(opt => opt.value === formState.service)?.label;
 
   return (
-    <section id="contato" className="py-24 px-4 bg-white border-t border-stone-200">
+    <section id="contato" className="py-24 px-4 bg-white border-t border-stone-200 relative z-10">
       <div className="max-w-5xl mx-auto">
         
         <ScrollReveal>

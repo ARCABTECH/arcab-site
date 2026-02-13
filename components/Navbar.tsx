@@ -48,7 +48,7 @@ const Navbar: React.FC = () => {
           <div className="md:hidden flex items-center">
             <button 
               onClick={() => setIsOpen(!isOpen)} 
-              className="text-eco-dark p-2 hover:bg-stone-200 transition-colors"
+              className="text-eco-dark p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-stone-200 transition-colors"
               aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}

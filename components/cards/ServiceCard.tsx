@@ -38,7 +38,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ item, index }) => {
       <div className="flex-grow">
         <div className="flex items-center gap-2 mb-3">
            <span className={`w-1.5 h-1.5 rounded-sm ${isDev ? 'bg-blue-500' : 'bg-emerald-500'}`}></span>
-           <span className="text-[10px] font-mono uppercase tracking-wider text-stone-400">
+           <span className="text-xs font-mono uppercase tracking-wider text-stone-600">
              {item.category}
            </span>
         </div>
@@ -46,14 +46,14 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ item, index }) => {
         <h3 className="font-sans font-bold text-xl mb-3 text-eco-dark tracking-tight group-hover:text-eco-primary transition-colors">
           {item.title}
         </h3>
-        <p className="font-mono text-sm text-stone-500 leading-relaxed">
+        <p className="font-mono text-sm text-stone-600 leading-relaxed">
           {item.description}
         </p>
       </div>
 
       {/* Technical Footer (Non-clickable, purely aesthetic) */}
       <div className="mt-8 pt-3 border-t border-stone-100 flex justify-between items-center opacity-60 group-hover:opacity-100 transition-opacity">
-         <div className="flex items-center gap-2 text-[10px] font-mono text-stone-400">
+         <div className="flex items-center gap-2 text-xs font-mono text-stone-600">
             <Hash size={10} />
             <span className="uppercase tracking-widest">{item.id.substring(0, 6).toUpperCase()}</span>
          </div>

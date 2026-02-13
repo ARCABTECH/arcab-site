@@ -14,7 +14,7 @@
   color: #0C0A09;
 }
 
-/* Utilities for scroll reveal */
+/* Utilities for scroll reveal - JS fallback */
 .reveal-hidden {
   opacity: 0;
   transform: translateY(20px);
@@ -24,6 +24,32 @@
   opacity: 1;
   transform: translateY(0);
   transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* CSS-native scroll-driven reveal for modern browsers (Chrome 115+, Safari 18+) */
+@supports (animation-timeline: view()) {
+  @keyframes revealIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .reveal-css-native {
+    animation: revealIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 30%;
+  }
+}
+
+/* Content-visibility for below-the-fold sections */
+.content-deferred {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 500px;
 }
 
 /* Custom Scrollbar for Terminals and Lists */

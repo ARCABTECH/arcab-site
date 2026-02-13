@@ -34,7 +34,7 @@ const Hero: React.FC = () => {
         <div className="flex flex-col items-start">
             <div className="inline-flex items-center gap-2 mb-6 border-b border-eco-dark/20 pb-2">
               <div className="w-2 h-2 bg-eco-primary rounded-full"></div>
-              <span className="font-mono text-xs font-medium uppercase tracking-widest text-stone-500">
+              <span className="font-mono text-xs font-medium uppercase tracking-widest text-stone-600">
                 Engenharia Digital
               </span>
             </div>
@@ -59,11 +59,11 @@ const Hero: React.FC = () => {
             </div>
             
             <div className="mt-12 flex gap-8 border-t border-stone-200 pt-6">
-               <div className="flex items-center gap-2 text-stone-500">
+               <div className="flex items-center gap-2 text-stone-600">
                   <Database size={16} />
                   <span className="text-xs font-mono uppercase">Data Structs</span>
                </div>
-               <div className="flex items-center gap-2 text-stone-500">
+               <div className="flex items-center gap-2 text-stone-600">
                   <Code2 size={16} />
                   <span className="text-xs font-mono uppercase">Full Stack</span>
                </div>
@@ -93,7 +93,7 @@ const Hero: React.FC = () => {
                      </div>
                      <div className="flex items-center gap-2">
                         <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
-                        <span className="text-[10px] font-mono text-stone-400">CONN_ESTABLISHED</span>
+                        <span className="text-xs font-mono text-stone-600">CONN_ESTABLISHED</span>
                      </div>
                   </div>
 
@@ -103,10 +103,10 @@ const Hero: React.FC = () => {
                      {/* Module 1: Data Ingestion Map (Heatmap style) - Top Left */}
                      <div className="col-span-8 bg-stone-50 border border-stone-200 p-3 flex flex-col">
                         <div className="flex justify-between items-center mb-3">
-                           <span className="text-[10px] font-mono uppercase font-bold text-stone-500 flex items-center gap-2">
+                           <span className="text-xs font-mono uppercase font-bold text-stone-600 flex items-center gap-2">
                               <Database size={12} /> Data Ingestion Map
                            </span>
-                           <span className="text-[10px] font-mono text-stone-400">REALTIME</span>
+                           <span className="text-xs font-mono text-stone-600">REALTIME</span>
                         </div>
                         {/* Heatmap grid as single SVG for reduced DOM */}
                         <svg viewBox="0 0 119 39" className="w-full flex-grow" aria-hidden="true">
@@ -131,7 +131,7 @@ const Hero: React.FC = () => {
 
                      {/* Module 2: System Throughput (Accurate Chart) - Top Right */}
                      <div className="col-span-4 bg-stone-50 border border-stone-200 p-3 flex flex-col items-center justify-center relative">
-                        <span className="absolute top-3 left-3 text-[10px] font-mono uppercase font-bold text-stone-500 flex items-center gap-2">
+                        <span className="absolute top-3 left-3 text-xs font-mono uppercase font-bold text-stone-600 flex items-center gap-2">
                            <Activity size={12} /> Throughput
                         </span>
                         
@@ -157,36 +157,36 @@ const Hero: React.FC = () => {
                               <span className="text-xl font-bold font-sans text-eco-dark">{percentage}%</span>
                            </div>
                         </div>
-                        <span className="text-[10px] font-mono text-stone-400 mt-1">OPTIMIZED</span>
+                        <span className="text-xs font-mono text-stone-600 mt-1">OPTIMIZED</span>
                      </div>
 
                      {/* Module 3: Active Processes (List) - Bottom */}
                      <div className="col-span-12 bg-white border border-stone-200 p-0 flex flex-col overflow-hidden">
                         <div className="bg-stone-100 px-3 py-1.5 border-b border-stone-200 flex justify-between">
-                           <span className="text-[10px] font-mono font-bold text-stone-500">ACTIVE PROCESSES</span>
-                           <Activity size={12} className="text-stone-400"/>
+                           <span className="text-xs font-mono font-bold text-stone-600">ACTIVE PROCESSES</span>
+                           <Activity size={12} className="text-stone-600"/>
                         </div>
-                        <div className="p-3 font-mono text-[10px] space-y-2 text-stone-600">
+                        <div className="p-3 font-mono text-xs space-y-2 text-stone-600">
                            <div className="flex justify-between items-center border-b border-stone-100 pb-1">
                               <div className="flex items-center gap-2">
                                  <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
                                  <span>ETL_PIPELINE_MAIN</span>
                               </div>
-                              <span className="text-stone-400">RUNNING</span>
+                              <span className="text-stone-600">RUNNING</span>
                            </div>
                            <div className="flex justify-between items-center border-b border-stone-100 pb-1">
                               <div className="flex items-center gap-2">
                                  <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
                                  <span>PREDICTIVE_MODEL_V2</span>
                               </div>
-                              <span className="text-stone-400">INFERENCE</span>
+                              <span className="text-stone-600">INFERENCE</span>
                            </div>
                            <div className="flex justify-between items-center">
                               <div className="flex items-center gap-2">
                                  <div className="w-1.5 h-1.5 rounded-full bg-amber-500"></div>
                                  <span>WEB_CRAWLER_NODE_4</span>
                               </div>
-                              <span className="text-stone-400">WAITING</span>
+                              <span className="text-stone-600">WAITING</span>
                            </div>
                         </div>
                      </div>
@@ -199,7 +199,7 @@ const Hero: React.FC = () => {
                   <div className="flex items-center gap-3">
                      <Cpu size={18} className="text-eco-accent" />
                      <div className="flex flex-col">
-                        <span className="text-[10px] font-mono text-stone-400 uppercase tracking-wider">Architecture</span>
+                        <span className="text-xs font-mono text-stone-600 uppercase tracking-wider">Architecture</span>
                         <span className="text-xs font-bold text-white">Scalable / Secure</span>
                      </div>
                   </div>

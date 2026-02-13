@@ -5,7 +5,7 @@ import { FeaturePillar } from './cards/FeaturePillar';
 
 const About: React.FC = () => {
   return (
-    <section id="sobre" className="py-24 px-4 bg-eco-dark text-stone-100 relative overflow-hidden">
+    <section id="sobre" className="py-24 px-4 bg-eco-dark text-stone-100 relative overflow-hidden content-deferred">
       {/* Decorative large text background - Reduced opacity for less pollution */}
       <div className="absolute top-20 right-0 font-sans font-bold text-[200px] leading-none text-white/[0.01] pointer-events-none select-none">
         ARCAB

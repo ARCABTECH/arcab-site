@@ -50,6 +50,10 @@ export const metadata: Metadata = {
     description: 'Soluções em Análise Preditiva, Dashboards, Web Scraping e Desenvolvimento Web.',
     images: ['/assets/logo.svg'],
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
   icons: {
     icon: [
       { url: '/assets/logo.svg', type: 'image/svg+xml', sizes: 'any' },

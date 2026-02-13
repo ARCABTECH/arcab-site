@@ -69,7 +69,7 @@ const Services: React.FC = () => {
   }, []);
 
   return (
-    <section id="servicos" className="relative bg-white border-t border-stone-300 pt-8 pb-24 overflow-hidden">
+    <section id="servicos" className="relative bg-white border-t border-stone-300 pt-8 pb-24 overflow-hidden content-deferred">
       
       {/* Background Grid Pattern */}
       <div className="absolute inset-0 z-0 opacity-[0.03]" 

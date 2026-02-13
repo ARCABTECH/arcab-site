@@ -12,7 +12,7 @@ const SystemLog: React.FC = () => {
   ];
 
   return (
-    <section className="bg-stone-100 py-24 px-4 border-t border-stone-200">
+    <section className="bg-stone-100 py-24 px-4 border-t border-stone-200 content-deferred">
       <div className="max-w-7xl mx-auto">
         <ScrollReveal>
           <div className="grid lg:grid-cols-2 gap-12">

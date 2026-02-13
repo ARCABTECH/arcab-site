@@ -21,22 +21,20 @@ const TechMarquee: React.FC = () => {
   return (
     <div className="bg-eco-dark text-stone-300 py-3 overflow-hidden border-y border-stone-800 relative z-20 flex select-none">
       {/* First Loop Container */}
-      <div className="flex animate-marquee whitespace-nowrap shrink-0 items-center">
+      <div className="flex animate-marquee whitespace-nowrap shrink-0 items-center will-change-transform">
         {technologies.map((tech, index) => (
-          <div key={`t1-${index}`} className="flex items-center gap-4 px-8 shrink-0">
-            <span className="text-eco-accent text-xs">///</span>
-            <span className="font-mono font-bold text-sm tracking-widest">{tech}</span>
-          </div>
+          <span key={`t1-${index}`} className="font-mono font-bold text-sm tracking-widest px-4 shrink-0">
+            <span className="text-eco-accent text-xs mr-4">///</span>{tech}
+          </span>
         ))}
       </div>
       
       {/* Second Loop Container (Duplicate for seamless effect) */}
-      <div className="flex animate-marquee whitespace-nowrap shrink-0 items-center">
+      <div className="flex animate-marquee whitespace-nowrap shrink-0 items-center will-change-transform">
         {technologies.map((tech, index) => (
-          <div key={`t2-${index}`} className="flex items-center gap-4 px-8 shrink-0">
-            <span className="text-eco-accent text-xs">///</span>
-            <span className="font-mono font-bold text-sm tracking-widest">{tech}</span>
-          </div>
+          <span key={`t2-${index}`} className="font-mono font-bold text-sm tracking-widest px-4 shrink-0">
+            <span className="text-eco-accent text-xs mr-4">///</span>{tech}
+          </span>
         ))}
       </div>
     </div>
