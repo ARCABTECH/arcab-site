@@ -76,7 +76,7 @@ const Footer: React.FC = () => {
               className="h-10 w-auto"
             />
           </div>
-          <p className="font-mono text-xs text-stone-500 max-w-xs text-center md:text-left">
+          <p className="font-mono text-xs text-stone-600 max-w-xs text-center md:text-left">
             Reparando e construindo o arcabouço digital com engenharia robusta e inteligência de dados.
           </p>
         </div>
@@ -99,7 +99,7 @@ const Footer: React.FC = () => {
               );
             })}
           </div>
-          <div className="font-mono text-[10px] text-stone-400 uppercase tracking-wider text-center md:text-right">
+          <div className="font-mono text-xs text-stone-600 uppercase tracking-wider text-center md:text-right">
             © {new Date().getFullYear()} ARCAB. Goiânia/BR.
           </div>
         </div>

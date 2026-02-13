@@ -23,8 +23,8 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
     <div className={`w-full ${className}`}>
       <div className={`w-full ${height} bg-stone-200 overflow-hidden relative`}>
         <div
-          className={`h-full ${color} transition-all duration-300 ease-out`}
-          style={{ width: `${clampedProgress}%` }}
+          className={`h-full w-full ${color} transition-transform duration-300 ease-out origin-left`}
+          style={{ transform: `scaleX(${clampedProgress / 100})` }}
         ></div>
       </div>
       {showLabel && label && (

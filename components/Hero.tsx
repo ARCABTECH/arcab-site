@@ -2,8 +2,7 @@
 
 import React from 'react';
 import { BrutalistButton } from './ui/BrutalistButton';
-import { ArrowRight, Database, Code2, Activity, Server, Zap, HardDrive, Cpu } from 'lucide-react';
-import { ScrollReveal } from './ui/ScrollReveal';
+import { ArrowRight, Database, Code2, Activity, Cpu } from 'lucide-react';
 
 const Hero: React.FC = () => {
   const scrollToServices = () => {
@@ -33,7 +32,6 @@ const Hero: React.FC = () => {
         
         {/* Text Content - Direct & Professional */}
         <div className="flex flex-col items-start">
-          <ScrollReveal>
             <div className="inline-flex items-center gap-2 mb-6 border-b border-eco-dark/20 pb-2">
               <div className="w-2 h-2 bg-eco-primary rounded-full"></div>
               <span className="font-mono text-xs font-medium uppercase tracking-widest text-stone-500">
@@ -70,12 +68,10 @@ const Hero: React.FC = () => {
                   <span className="text-xs font-mono uppercase">Full Stack</span>
                </div>
             </div>
-          </ScrollReveal>
         </div>
 
         {/* Visual - Advanced System Monitor */}
         <div className="relative hidden lg:block h-full min-h-[500px]">
-          <ScrollReveal delay={200} className="w-full h-full">
             <div className="absolute inset-0 flex items-center justify-center [perspective:1000px]">
                
                {/* Background Layers - Solid and Static */}
@@ -112,21 +108,25 @@ const Hero: React.FC = () => {
                            </span>
                            <span className="text-[10px] font-mono text-stone-400">REALTIME</span>
                         </div>
-                        {/* A logical heatmap grid instead of random bars */}
-                        <div className="grid grid-cols-12 gap-1 flex-grow content-start">
-                           {[...Array(48)].map((_, i) => {
-                              // Pseudo-random but consistent opacity for "data density" feel
+                        {/* Heatmap grid as single SVG for reduced DOM */}
+                        <svg viewBox="0 0 119 39" className="w-full flex-grow" aria-hidden="true">
+                           {Array.from({ length: 48 }, (_, i) => {
                               const opacity = Math.max(0.1, (Math.sin(i) + 1) / 2);
                               const isActive = opacity > 0.6;
                               return (
-                                 <div 
-                                    key={i} 
-                                    className={`aspect-square rounded-[1px] ${isActive ? 'bg-eco-primary' : 'bg-stone-200'}`}
-                                    style={{ opacity: isActive ? opacity : 0.3 }}
-                                 ></div>
-                              )
+                                 <rect
+                                    key={i}
+                                    x={(i % 12) * 10}
+                                    y={Math.floor(i / 12) * 10}
+                                    width={9}
+                                    height={9}
+                                    rx={0.5}
+                                    fill={isActive ? '#059669' : '#e7e5e4'}
+                                    opacity={isActive ? opacity : 0.3}
+                                 />
+                              );
                            })}
-                        </div>
+                        </svg>
                      </div>
 
                      {/* Module 2: System Throughput (Accurate Chart) - Top Right */}
@@ -206,7 +206,6 @@ const Hero: React.FC = () => {
                </div>
 
             </div>
-          </ScrollReveal>
         </div>
 
       </div>

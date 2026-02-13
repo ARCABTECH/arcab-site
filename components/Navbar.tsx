@@ -31,6 +31,7 @@ const Navbar: React.FC = () => {
               className="w-auto transition-opacity group-hover:opacity-80"
               style={{ height: '51.2px' }}
               priority
+              fetchPriority="high"
             />
           </div>
 
@@ -48,6 +49,7 @@ const Navbar: React.FC = () => {
             <button 
               onClick={() => setIsOpen(!isOpen)} 
               className="text-eco-dark p-2 hover:bg-stone-200 transition-colors"
+              aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
