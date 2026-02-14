@@ -28,11 +28,10 @@ const Contact: React.FC = () => {
   const RATE_LIMIT_MS = 30000;
 
   const interestOptions = [
-    { value: 'analise', label: 'Análise de Dados & BI' },
-    { value: 'web', label: 'Desenvolvimento Web & SaaS' },
-    { value: 'api', label: 'APIs & Integrações' },
-    { value: 'scraping', label: 'Web Scraping / ETL' },
-    { value: 'outro', label: 'Consultoria Geral' },
+    { value: 'engenharia-dados', label: 'Engenharia de Dados', hint: 'Scraping, ETL, Consultoria' },
+    { value: 'inteligencia-dados', label: 'Inteligência de Dados', hint: 'Dashboards, NLP & IA, Preditiva' },
+    { value: 'engenharia-software', label: 'Engenharia de Software', hint: 'SaaS, APIs, Web Apps, RPA' },
+    { value: 'outro', label: 'Outro', hint: 'Descreva nos detalhes do projeto' },
   ];
 
   // Close dropdown when clicking outside
@@ -176,7 +175,7 @@ const Contact: React.FC = () => {
 
                 {/* Custom Styled Select Component */}
                 <div className="group relative" ref={dropdownRef}>
-                  <label className="block font-mono text-[10px] font-bold uppercase mb-2 tracking-widest text-stone-400 group-focus-within:text-eco-dark transition-colors">Área de Interesse</label>
+                  <label className="block font-mono text-xs font-bold uppercase mb-2 tracking-widest text-stone-400 group-focus-within:text-eco-dark transition-colors">Área de Interesse</label>
                   
                   <div className="relative">
                     <button
@@ -203,11 +202,14 @@ const Contact: React.FC = () => {
                               <button
                                 type="button"
                                 onClick={() => handleSelect(option.value)}
-                                className="w-full text-left px-4 py-3 text-sm font-mono text-stone-600 hover:bg-eco-accent hover:text-eco-dark transition-colors flex items-center justify-between group/opt"
+                                className="w-full text-left px-4 py-3 font-mono text-stone-600 hover:bg-eco-accent hover:text-eco-dark transition-colors flex items-center justify-between group/opt"
                               >
-                                {option.label}
+                                <div>
+                                  <span className="text-sm font-bold">{option.label}</span>
+                                  <span className="block text-xs text-stone-400 group-hover/opt:text-stone-600 mt-0.5">{option.hint}</span>
+                                </div>
                                 {formState.service === option.value && (
-                                  <Check size={14} className="text-eco-primary group-hover/opt:text-eco-dark" />
+                                  <Check size={14} className="text-eco-primary group-hover/opt:text-eco-dark shrink-0 ml-2" />
                                 )}
                               </button>
                             </li>

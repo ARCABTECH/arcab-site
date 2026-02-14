@@ -1,101 +1,76 @@
 import { 
-  LineChart, 
-  LayoutDashboard, 
   Database, 
-  MessageSquareText, 
   Filter, 
-  AppWindow, 
+  Briefcase,
+  LayoutDashboard, 
+  MessageSquareText, 
+  LineChart,
   Server, 
   Webhook, 
   Binary, 
   Workflow, 
-  Briefcase 
+  AppWindow,
+  Layers,
+  Brain,
+  Terminal,
+  type LucideIcon,
 } from 'lucide-react';
 
-export interface ServiceItem {
-  id: string;
-  title: string;
-  description: string;
-  icon: any;
-  category: 'Dados' | 'Desenvolvimento';
+export interface SubService {
+  name: string;
+  icon: LucideIcon;
 }
 
-export const servicesData: ServiceItem[] = [
+export interface PillarItem {
+  id: string;
+  pillarName: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  icon: LucideIcon;
+  services: SubService[];
+}
+
+export const pillarsData: PillarItem[] = [
   {
-    id: 'preditiva',
-    title: 'Análise Preditiva',
-    description: 'Antecipe tendências e comportamentos futuros com modelos estatísticos avançados.',
-    icon: LineChart,
-    category: 'Dados'
+    id: 'engenharia-dados',
+    pillarName: 'A BASE',
+    title: 'Engenharia de Dados',
+    subtitle: 'Onde o dado nasce.',
+    description: 'Coleta, tratamento e estruturação dos dados brutos. Pipelines robustos, governança e arquitetura de dados do zero.',
+    icon: Layers,
+    services: [
+      { name: 'Web Scraping', icon: Database },
+      { name: 'ETL & Limpeza', icon: Filter },
+      { name: 'Consultoria de Dados', icon: Briefcase },
+    ],
   },
   {
-    id: 'dashboards',
-    title: 'Dashboards Interativos',
-    description: 'Visualização de dados em tempo real para tomada de decisão ágil e precisa.',
-    icon: LayoutDashboard,
-    category: 'Dados'
+    id: 'inteligencia-dados',
+    pillarName: 'O CÉREBRO',
+    title: 'Inteligência de Dados',
+    subtitle: 'O que o dado diz.',
+    description: 'Transformamos dados em decisões. Visualização em tempo real, modelos preditivos e processamento de linguagem natural.',
+    icon: Brain,
+    services: [
+      { name: 'Dashboards Interativos', icon: LayoutDashboard },
+      { name: 'NLP & IA', icon: MessageSquareText },
+      { name: 'Análise Preditiva', icon: LineChart },
+    ],
   },
   {
-    id: 'scraping',
-    title: 'Web Scraping',
-    description: 'Raspagem de dados automatizada para coleta de informações estratégicas da web.',
-    icon: Database,
-    category: 'Dados'
-  },
-  {
-    id: 'nlp',
-    title: 'NLP & IA',
-    description: 'Processamento de linguagem natural para análise de sentimentos e automação de texto.',
-    icon: MessageSquareText,
-    category: 'Dados'
-  },
-  {
-    id: 'etl',
-    title: 'ETL & Limpeza',
-    description: 'Pipelines robustos de extração, transformação e carregamento de dados estruturados.',
-    icon: Filter,
-    category: 'Dados'
-  },
-  {
-    id: 'landing',
-    title: 'Landing Pages',
-    description: 'Páginas de alta conversão com design moderno e otimização de performance.',
-    icon: AppWindow,
-    category: 'Desenvolvimento'
-  },
-  {
-    id: 'sistemas',
-    title: 'Sistemas Web (SaaS)',
-    description: 'Desenvolvimento de ERPs, CRMs e plataformas personalizadas para o seu negócio.',
-    icon: Server,
-    category: 'Desenvolvimento'
-  },
-  {
-    id: 'api',
-    title: 'APIs Rest & GraphQL',
-    description: 'Construção de interfaces de programação seguras e escaláveis para integração.',
-    icon: Webhook,
-    category: 'Desenvolvimento'
-  },
-  {
-    id: 'webapps',
-    title: 'Web Apps de Dados',
-    description: 'Aplicações focadas na manipulação e visualização complexa de grandes volumes de dados.',
-    icon: Binary,
-    category: 'Desenvolvimento'
-  },
-  {
-    id: 'rpa',
-    title: 'Automação (RPA)',
-    description: 'Robôs de software para automatizar tarefas repetitivas e aumentar a produtividade.',
-    icon: Workflow,
-    category: 'Desenvolvimento'
-  },
-  {
-    id: 'consultoria',
-    title: 'Consultoria de Dados',
-    description: 'Planejamento estratégico de arquitetura de dados e governança corporativa.',
-    icon: Briefcase,
-    category: 'Dados'
+    id: 'engenharia-software',
+    pillarName: 'O CORPO',
+    title: 'Engenharia de Software',
+    subtitle: 'Onde o dado trabalha.',
+    description: 'Software sob medida que operacionaliza os dados. ERPs, plataformas SaaS, APIs escaláveis e automação de processos.',
+    icon: Terminal,
+    services: [
+      { name: 'Sistemas Web (SaaS)', icon: Server },
+      { name: 'APIs Rest & GraphQL', icon: Webhook },
+      { name: 'Web Apps de Dados', icon: Binary },
+      { name: 'Automação (RPA)', icon: Workflow },
+      { name: 'Landing Pages', icon: AppWindow },
+    ],
   },
 ];
