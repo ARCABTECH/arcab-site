@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { Github, Linkedin, Instagram, Youtube } from 'lucide-react';
+import { Github, Linkedin, Instagram, Facebook, Youtube } from 'lucide-react';
 import { XIcon, ThreadsIcon, RedditIcon, TikTokIcon } from './ui/SocialIcons';
 
 const Footer: React.FC = () => {
@@ -41,6 +41,11 @@ const Footer: React.FC = () => {
       icon: TikTokIcon,
     },
     {
+      name: 'Facebook',
+      url: 'https://www.facebook.com/profile.php?id=61588464847607',
+      icon: Facebook,
+    },
+    {
       name: 'YouTube',
       url: 'https://www.youtube.com/@arcabtech',
       icon: Youtube,
@@ -67,7 +72,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="flex flex-col items-center md:items-end gap-4">
-          <div className="flex flex-wrap gap-4 justify-center md:justify-end">
+          <div className="flex flex-wrap gap-2 justify-center max-w-[252px] mx-auto md:max-w-none md:mx-0 md:gap-4 md:justify-end">
             {socialLinks.map((social) => {
               const IconComponent = social.icon;
               return (
