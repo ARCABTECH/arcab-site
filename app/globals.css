@@ -46,6 +46,17 @@
   }
 }
 
+/* Accent bar animation triggered by scroll reveal */
+.accent-bar {
+  transform: scaleY(0);
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-visible .accent-bar,
+.reveal-css-native .accent-bar {
+  transform: scaleY(1);
+}
+
 /* Content-visibility for below-the-fold sections */
 .content-deferred {
   content-visibility: auto;
