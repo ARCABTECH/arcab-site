@@ -24,7 +24,7 @@ const TechMarquee: React.FC = () => {
       <div className="flex animate-marquee whitespace-nowrap shrink-0 items-center will-change-transform">
         {technologies.map((tech, index) => (
           <span key={`t1-${index}`} className="font-mono font-bold text-sm tracking-widest px-4 shrink-0">
-            <span className="text-eco-accent text-xs mr-4">///</span>{tech}
+            <span className="text-eco-accent text-xs mr-4">{'///'}</span>{tech}
           </span>
         ))}
       </div>
@@ -33,7 +33,7 @@ const TechMarquee: React.FC = () => {
       <div className="flex animate-marquee whitespace-nowrap shrink-0 items-center will-change-transform">
         {technologies.map((tech, index) => (
           <span key={`t2-${index}`} className="font-mono font-bold text-sm tracking-widest px-4 shrink-0">
-            <span className="text-eco-accent text-xs mr-4">///</span>{tech}
+            <span className="text-eco-accent text-xs mr-4">{'///'}</span>{tech}
           </span>
         ))}
       </div>

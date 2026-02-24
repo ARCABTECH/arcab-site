@@ -52,9 +52,9 @@ const PillarCard: React.FC<{ pillar: typeof pillars[0] }> = ({ pillar }) => (
     </div>
 
     {/* Pillar name */}
-    <h4 className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-eco-accent mb-4 relative z-10">
+    <p className="font-mono text-sm font-bold uppercase tracking-[0.18em] text-stone-200 mb-4 relative z-10">
       {pillar.name}
-    </h4>
+    </p>
 
     {/* Phrase */}
     <p className="font-sans text-lg text-white leading-snug mb-6 relative z-10">
@@ -62,7 +62,7 @@ const PillarCard: React.FC<{ pillar: typeof pillars[0] }> = ({ pillar }) => (
     </p>
 
     {/* Metadata */}
-    <div className="font-mono text-xs text-stone-600 border-t border-stone-800 pt-4 relative z-10 group-hover:text-stone-500 transition-colors">
+    <div className="font-mono text-xs text-stone-400 border-t border-stone-800 pt-4 relative z-10 group-hover:text-stone-300 transition-colors">
       {pillar.meta}
     </div>
   </div>
@@ -83,12 +83,12 @@ const About: React.FC = () => {
           <div className="text-center mb-16 md:mb-20">
             <div className="inline-flex items-center gap-2 mb-6 justify-center">
               <div className="w-2 h-2 bg-eco-accent"></div>
-              <span className="font-mono text-xs text-stone-400 tracking-widest uppercase">A Empresa</span>
+              <span className="font-mono text-xs text-stone-300 tracking-widest uppercase">A Empresa</span>
             </div>
             <h2 className="font-sans text-3xl md:text-5xl leading-tight font-medium mb-4">
               O <span className="text-eco-accent">arcabouço</span> completo.
             </h2>
-            <p className="font-mono text-sm md:text-base text-stone-400 max-w-lg mx-auto">
+            <p className="font-mono text-sm md:text-base text-stone-300 max-w-lg mx-auto">
               Pessoas, processos e tecnologia trabalhando juntos.
             </p>
           </div>
@@ -106,7 +106,7 @@ const About: React.FC = () => {
         {/* Bottom tagline */}
         <ScrollReveal delay={400}>
           <div className="mt-12 md:mt-16 text-center">
-            <p className="font-mono text-xs text-stone-600 uppercase tracking-widest">
+            <p className="font-mono text-xs text-stone-300 uppercase tracking-widest">
               Melhorando a vida de pessoas e empresas com tecnologia.
             </p>
           </div>

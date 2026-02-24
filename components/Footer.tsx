@@ -67,7 +67,7 @@ const Footer: React.FC = () => {
             />
           </div>
           <p className="font-mono text-xs text-stone-600 max-w-xs text-center md:text-left">
-            Reparando e construindo o arcabouço digital com engenharia robusta e inteligência de dados.
+            Dados e software, na mesma engenharia: da informação à aplicação que gera resultado.
           </p>
         </div>
 

@@ -122,7 +122,9 @@ const Contact: React.FC = () => {
         );
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
+      if (process.env.NODE_ENV !== 'production') {
+        console.error('Error submitting form:', error);
+      }
       showToast('Erro ao enviar mensagem. Por favor, tente novamente mais tarde.', 'error');
     } finally {
       setIsSubmitting(false);
@@ -140,7 +142,7 @@ const Contact: React.FC = () => {
             <SectionHeader
               label=""
               title="INICIAR UM PROJETO"
-              description="Seu sistema precisa de refatoração ou escala? Nossa engenharia avalia a maturidade do seu ecossistema digital para propor a arquitetura ideal."
+              description="Integramos engenharia de dados e desenvolvimento de software para transformar contexto de negócio em solução escalável, da arquitetura à entrega."
               variant="centered"
               className="text-center"
             />
@@ -175,7 +177,7 @@ const Contact: React.FC = () => {
 
                 {/* Custom Styled Select Component */}
                 <div className="group relative" ref={dropdownRef}>
-                  <label className="block font-mono text-xs font-bold uppercase mb-2 tracking-widest text-stone-400 group-focus-within:text-eco-dark transition-colors">Área de Interesse</label>
+                  <label className="block font-mono text-xs font-bold uppercase mb-2 tracking-widest text-stone-600 group-focus-within:text-eco-dark transition-colors">Área de Interesse</label>
                   
                   <div className="relative">
                     <button
@@ -183,7 +185,7 @@ const Contact: React.FC = () => {
                       onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                       className={`w-full text-left bg-transparent border-b ${isDropdownOpen ? 'border-eco-primary' : 'border-stone-300'} py-3 text-lg font-sans focus:outline-none transition-colors rounded-none flex items-center justify-between group-hover:border-stone-400`}
                     >
-                      <span className={formState.service ? 'text-eco-dark' : 'text-stone-300'}>
+                      <span className={formState.service ? 'text-eco-dark' : 'text-stone-500'}>
                         {selectedLabel || "Selecione uma opção..."}
                       </span>
                       <ChevronDown 
@@ -206,7 +208,7 @@ const Contact: React.FC = () => {
                               >
                                 <div>
                                   <span className="text-sm font-bold">{option.label}</span>
-                                  <span className="block text-xs text-stone-400 group-hover/opt:text-stone-600 mt-0.5">{option.hint}</span>
+                                  <span className="block text-xs text-stone-500 group-hover/opt:text-stone-700 mt-0.5">{option.hint}</span>
                                 </div>
                                 {formState.service === option.value && (
                                   <Check size={14} className="text-eco-primary group-hover/opt:text-eco-dark shrink-0 ml-2" />
@@ -252,7 +254,7 @@ const Contact: React.FC = () => {
                     )}
                   </BrutalistButton>
                   
-                  <div className="flex items-center justify-center gap-2 text-stone-400 text-xs font-mono mt-2">
+                  <div className="flex items-center justify-center gap-2 text-stone-600 text-xs font-mono mt-2">
                     <Mail size={12} />
                     <span>contato@arcab.com.br</span>
                   </div>

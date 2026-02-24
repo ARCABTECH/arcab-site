@@ -9,7 +9,9 @@ const CustomCursor: React.FC = () => {
   const diamondRef = useRef<SVGGElement>(null);
   const dotsRef = useRef<SVGGElement>(null);
   const isPointerRef = useRef(false);
-  const isTouchRef = useRef(false);
+  const rafRef = useRef<number | null>(null);
+  const nextXRef = useRef(0);
+  const nextYRef = useRef(0);
 
   const updateCursorClasses = useCallback(() => {
     if (!svgRef.current || !crosshairRef.current || !diamondRef.current || !dotsRef.current) return;
@@ -25,7 +27,6 @@ const CustomCursor: React.FC = () => {
 
     const mediaQuery = window.matchMedia('(pointer: coarse)');
     if (mediaQuery.matches) {
-      isTouchRef.current = true;
       return;
     }
 
@@ -33,22 +34,22 @@ const CustomCursor: React.FC = () => {
     if (!cursor) return;
 
     const updatePosition = (e: MouseEvent) => {
-      cursor.style.left = `${e.clientX}px`;
-      cursor.style.top = `${e.clientY}px`;
+      nextXRef.current = e.clientX;
+      nextYRef.current = e.clientY;
+
+      if (rafRef.current === null) {
+        rafRef.current = window.requestAnimationFrame(() => {
+          cursor.style.transform = `translate3d(${nextXRef.current}px, ${nextYRef.current}px, 0) translate(-50%, -50%)`;
+          rafRef.current = null;
+        });
+      }
+
       cursor.style.display = '';
     };
 
     const updateHoverState = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      const isClickable =
-        target.tagName.toLowerCase() === 'button' ||
-        target.tagName.toLowerCase() === 'a' ||
-        target.tagName.toLowerCase() === 'input' ||
-        target.tagName.toLowerCase() === 'textarea' ||
-        target.tagName.toLowerCase() === 'select' ||
-        target.closest('button') ||
-        target.closest('a') ||
-        target.classList.contains('cursor-pointer');
+      const isClickable = !!target.closest('button, a, input, textarea, select, [role="button"], .cursor-pointer');
 
       const newPointer = !!isClickable;
       if (newPointer !== isPointerRef.current) {
@@ -78,6 +79,9 @@ const CustomCursor: React.FC = () => {
     document.addEventListener('mouseenter', handleMouseEnter);
 
     return () => {
+      if (rafRef.current !== null) {
+        window.cancelAnimationFrame(rafRef.current);
+      }
       window.removeEventListener('mousemove', updatePosition);
       window.removeEventListener('mouseover', updateHoverState);
       window.removeEventListener('mousedown', handleMouseDown);
@@ -96,7 +100,8 @@ const CustomCursor: React.FC = () => {
       className="fixed pointer-events-none z-[9999] mix-blend-exclusion text-white"
       style={{
         display: 'none',
-        transform: 'translate(-50%, -50%)',
+        transform: 'translate3d(0, 0, 0) translate(-50%, -50%)',
+        willChange: 'transform',
       }}
     >
       <svg

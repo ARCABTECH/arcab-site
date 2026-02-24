@@ -7,25 +7,25 @@ const axioms = [
     name: 'INOVAÇÃO',
     phrase: 'O limite não é barreira.\nÉ referência.',
     accentBg: 'bg-eco-primary',
-    nameColor: 'text-eco-primary',
+    nameColor: 'text-stone-700',
   },
   {
     name: 'TRANSPARÊNCIA',
     phrase: 'Toda análise tem margem.\nToda entrega tem transparência.',
     accentBg: 'bg-eco-accent',
-    nameColor: 'text-eco-accent',
+    nameColor: 'text-stone-700',
   },
   {
     name: 'QUALIDADE',
     phrase: 'Cada detalhe é uma decisão.\nCada decisão, um compromisso.',
     accentBg: 'bg-blue-500',
-    nameColor: 'text-blue-500',
+    nameColor: 'text-stone-700',
   },
 ];
 
-const SystemLog: React.FC = () => {
+const PurposeSection: React.FC = () => {
   return (
-    <section className="bg-stone-100 py-16 md:py-20 px-4 border-t border-stone-200 content-deferred relative overflow-hidden">
+    <section id="proposito" className="bg-stone-100 py-16 md:py-20 px-4 border-t border-stone-200 content-deferred relative overflow-hidden">
       <div className="absolute top-12 left-0 font-sans font-bold text-[180px] leading-none text-stone-200/40 pointer-events-none select-none hidden md:block">
         ARCAB
       </div>
@@ -81,7 +81,7 @@ const SystemLog: React.FC = () => {
               <p className="font-sans text-xl md:text-2xl text-eco-dark font-bold max-w-lg mx-auto leading-snug mt-4">
                 Inovação, Transparência e Qualidade.
               </p>
-              <p className="font-sans text-base md:text-lg text-stone-400 font-medium mt-2">
+              <p className="font-sans text-base md:text-lg text-stone-600 font-medium mt-2">
                 O impacto é consequência.
               </p>
             </div>
@@ -92,4 +92,4 @@ const SystemLog: React.FC = () => {
   );
 };
 
-export default SystemLog;
+export default PurposeSection;

@@ -11,7 +11,14 @@ const Navbar: React.FC = () => {
   const scrollTo = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      const nav = document.querySelector('nav');
+      const navHeight = nav instanceof HTMLElement ? nav.offsetHeight : 0;
+      const y = element.getBoundingClientRect().top + window.pageYOffset - navHeight - 8;
+
+      window.scrollTo({
+        top: Math.max(0, y),
+        behavior: 'smooth',
+      });
       setIsOpen(false);
     }
   };
@@ -23,22 +30,32 @@ const Navbar: React.FC = () => {
           
           {/* Logo */}
           <div className="flex items-center cursor-pointer group" onClick={() => scrollTo('hero')}>
-            <Image
-              src="/assets/main-logo.svg"
-              alt="ARCAB Logo"
-              width={192}
-              height={70}
-              className="w-auto transition-opacity group-hover:opacity-80"
-              style={{ height: '51.2px' }}
-              priority
-              fetchPriority="high"
-            />
+            <div className="relative h-[51.2px] w-[192px]">
+              <Image
+                src="/assets/main-logo.svg"
+                alt="ARCAB Logo"
+                width={192}
+                height={70}
+                className="h-[51.2px] w-auto transition-opacity duration-200 group-hover:opacity-0"
+                priority
+                fetchPriority="high"
+              />
+              <Image
+                src="/assets/main-logo-hover.svg"
+                alt=""
+                width={192}
+                height={70}
+                className="absolute inset-0 h-[51.2px] w-auto opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                aria-hidden="true"
+              />
+            </div>
           </div>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8 font-mono text-sm tracking-wide text-eco-dark">
             <button onClick={() => scrollTo('servicos')} className="hover:text-eco-primary transition-colors">Serviços</button>
-            <button onClick={() => scrollTo('sobre')} className="hover:text-eco-primary transition-colors">A Empresa</button>
+            <button onClick={() => scrollTo('sobre')} className="hover:text-eco-primary transition-colors">Arcabouço</button>
+            <button onClick={() => scrollTo('proposito')} className="hover:text-eco-primary transition-colors">Propósito</button>
             <BrutalistButton onClick={() => scrollTo('contato')} variant="secondary" className="px-5 py-2 text-xs shadow-none hover:shadow-sharp border-eco-dark">
               Fale Conosco
             </BrutalistButton>
@@ -71,7 +88,13 @@ const Navbar: React.FC = () => {
               onClick={() => scrollTo('sobre')} 
               className="text-2xl font-light hover:pl-4 transition-all duration-300"
             >
-              A Empresa
+              Arcabouço
+            </button>
+            <button 
+              onClick={() => scrollTo('proposito')} 
+              className="text-2xl font-light hover:pl-4 transition-all duration-300"
+            >
+              Propósito
             </button>
             <div className="pt-8 w-full">
               <BrutalistButton onClick={() => scrollTo('contato')} className="w-full">

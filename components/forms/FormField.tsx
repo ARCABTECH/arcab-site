@@ -27,11 +27,11 @@ export const FormField: React.FC<FormFieldProps> = ({
   as = 'input',
   className = '',
 }) => {
-  const baseInputStyles = "w-full bg-transparent border-b border-stone-300 py-3 text-lg font-sans text-eco-dark focus:outline-none focus:border-eco-primary transition-colors placeholder-stone-300 rounded-none";
+  const baseInputStyles = "w-full bg-transparent border-b border-stone-300 py-3 text-lg font-sans text-eco-dark focus:outline-none focus:border-eco-primary transition-colors placeholder-stone-500 rounded-none";
   
   return (
     <div className={`group ${className}`}>
-      <label className="block font-mono text-[10px] font-bold uppercase mb-2 tracking-widest text-stone-400 group-focus-within:text-eco-dark transition-colors">
+      <label className="block font-mono text-xs font-bold uppercase mb-2 tracking-widest text-stone-600 group-focus-within:text-eco-dark transition-colors">
         {label}
       </label>
       {as === 'textarea' ? (

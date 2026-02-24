@@ -2,24 +2,24 @@ import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import Services from '@/components/Services'
 import About from '@/components/About'
-import SystemLog from '@/components/SystemLog'
+import PurposeSection from '@/components/PurposeSection'
 import Contact from '@/components/Contact'
 import Footer from '@/components/Footer'
 import TechMarquee from '@/components/TechMarquee'
-import CustomCursor from '@/components/ui/CustomCursor'
+import CustomCursorMount from '@/components/ui/CustomCursorMount'
 import WhatsAppFloat from '@/components/ui/WhatsAppFloat'
 
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
-      <CustomCursor />
+      <CustomCursorMount />
       <Navbar />
       <main className="flex-grow">
         <Hero />
         <TechMarquee />
         <Services />
         <About />
-        <SystemLog />
+        <PurposeSection />
         <Contact />
       </main>
       <WhatsAppFloat />

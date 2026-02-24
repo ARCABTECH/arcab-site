@@ -35,20 +35,20 @@ export const metadata: Metadata = {
     siteName: 'ARCAB TECH',
     images: [
       {
-        url: '/assets/logo.svg',
-        width: 148,
-        height: 148,
-        alt: 'ARCAB TECH Logo',
+        url: '/assets/social-preview.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'ARCAB TECH - Inteligência de Dados e Engenharia de Software',
       },
     ],
     type: 'website',
     locale: 'pt_BR',
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'ARCAB TECH | Inteligência de Dados & Engenharia de Software',
     description: 'Soluções em Análise Preditiva, Dashboards, Web Scraping e Desenvolvimento Web.',
-    images: ['/assets/logo.svg'],
+    images: ['/assets/social-preview.jpg'],
   },
   robots: {
     index: true,
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
       { url: '/assets/logo.svg', type: 'image/svg+xml', sizes: 'any' },
     ],
     shortcut: '/assets/logo.svg',
-    apple: '/assets/logo.svg',
+    apple: '/assets/apple-touch-icon.png',
   },
 }
 
@@ -84,6 +84,8 @@ const jsonLd = {
         'https://www.youtube.com/@arcabtech',
         'https://www.tiktok.com/@arcab.tech',
         'https://www.threads.com/@arcabtech',
+        'https://www.facebook.com/profile.php?id=61588464847607',
+        'https://www.reddit.com/user/ARCABTECH/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button',
       ],
       contactPoint: {
         '@type': 'ContactPoint',

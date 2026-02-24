@@ -30,7 +30,7 @@ export const PillarCard: React.FC<PillarCardProps> = ({ item, index }) => {
           <item.icon size={32} strokeWidth={1.5} />
         </div>
         <div className="flex flex-col items-end">
-          <span className="font-mono text-xs font-bold text-stone-300 group-hover:text-eco-accent transition-colors">
+          <span className="font-mono text-xs font-bold text-stone-600 group-hover:text-eco-accent transition-colors">
             MOD_{serialNumber}
           </span>
           <div className="flex gap-1 mt-1.5">
@@ -42,7 +42,7 @@ export const PillarCard: React.FC<PillarCardProps> = ({ item, index }) => {
       </div>
       
       {/* Pillar Name (A BASE / O CÉREBRO / O CORPO) */}
-      <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-eco-accent mb-2">
+      <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-eco-dark mb-2">
         {item.pillarName}
       </span>
 
@@ -77,7 +77,7 @@ export const PillarCard: React.FC<PillarCardProps> = ({ item, index }) => {
             <button
               type="button"
               onClick={() => setShowAll(true)}
-              className="inline-flex items-center font-mono text-xs border border-dashed border-stone-300 px-2.5 py-1.5 text-stone-400 hover:border-eco-primary hover:text-eco-primary transition-colors cursor-pointer"
+              className="inline-flex items-center font-mono text-xs border border-dashed border-stone-300 px-2.5 py-1.5 text-stone-600 hover:border-eco-primary hover:text-eco-primary transition-colors cursor-pointer"
             >
               +{hiddenCount}
             </button>

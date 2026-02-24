@@ -12,8 +12,8 @@ Site institucional da ARCAB TECH - Soluções em Análise Preditiva, Dashboards,
 
 ## Pré-requisitos
 
-- Node.js 18+ 
-- npm ou yarn
+- Node.js 20+
+- npm
 
 ## Instalação
 
@@ -24,7 +24,7 @@ npm install
 
 2. Configure as variáveis de ambiente (opcional):
 ```bash
-cp .env.local.example .env.local
+cp .env.example .env.local
 # Edite .env.local com suas chaves de API se necessário
 ```
 
@@ -49,9 +49,8 @@ arcab-site/
 ├── app/                    # App Router do Next.js
 │   ├── layout.tsx         # Layout raiz com metadata e fontes
 │   ├── page.tsx           # Página principal
-│   ├── globals.css        # Estilos globais
-│   └── api/               # API Routes
-│       └── contact/       # Endpoint do formulário de contato
+│   ├── sitemap.ts         # Sitemap automático (gerado no build)
+│   └── globals.css        # Estilos globais
 ├── components/             # Componentes React
 │   ├── Navbar.tsx
 │   ├── Hero.tsx
@@ -59,7 +58,7 @@ arcab-site/
 │   ├── About.tsx
 │   ├── Contact.tsx
 │   ├── Footer.tsx
-│   ├── SystemLog.tsx
+│   ├── PurposeSection.tsx
 │   ├── TechMarquee.tsx
 │   └── ui/                # Componentes UI reutilizáveis
 ├── data/                   # Dados estáticos
@@ -73,14 +72,15 @@ arcab-site/
 - **Cursor Customizado**: Cursor personalizado para desktop
 - **Animações**: Scroll reveal e animações suaves
 - **Responsivo**: Totalmente responsivo para mobile e desktop
-- **SEO Otimizado**: Metadata completa e SSR do Next.js
-- **Performance**: Otimizações automáticas do Next.js
+- **SEO Otimizado**: Metadata completa, JSON-LD, robots e sitemap
+- **Build Estático**: Export para GitHub Pages com `output: 'export'`
+- **Performance**: Otimizações para Core Web Vitals
 
 ## Deploy
 
 ### GitHub Pages (Configurado)
 
-O projeto está configurado para deploy automático no GitHub Pages com domínio customizado `arcab.com.br`.
+O projeto está configurado para deploy automático no GitHub Pages com domínio customizado `arcab.com.br` usando export estático do Next.js.
 
 **Deploy Automatizado:**
 - Push para branch `main` aciona o workflow automaticamente
@@ -90,21 +90,6 @@ O projeto está configurado para deploy automático no GitHub Pages com domínio
 **Configuração:**
 1. O workflow está em `.github/workflows/deploy.yml`
 2. Custom domain configurado via `public/CNAME`
-3. Para configurar DNS, consulte `GUIA_DNS_HOSTINGER.md`
-
-**Outras Plataformas:**
-- [Vercel](https://vercel.com) (recomendado para Next.js)
-- [Netlify](https://netlify.com)
-- Qualquer plataforma que suporte Next.js
-
-## Desenvolvimento
-
-Este projeto foi migrado de Vite + React para Next.js seguindo as melhores práticas:
-- App Router do Next.js 16+
-- Server Components por padrão
-- Client Components apenas quando necessário
-- Otimização de fontes com `next/font`
-- API Routes para backend
 
 ## Licença
 

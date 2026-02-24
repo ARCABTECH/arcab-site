@@ -12,7 +12,7 @@ const WhatsAppFloat: React.FC = () => {
     >
       {/* Label that appears on hover (Desktop) */}
       <div className="absolute right-full mr-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none hidden md:block">
-        <div className="bg-eco-dark text-white text-[10px] font-mono py-1 px-2 whitespace-nowrap border border-white/20 shadow-sharp">
+        <div className="bg-eco-dark text-white text-xs font-mono py-1 px-2 whitespace-nowrap border border-white/20 shadow-sharp">
           INICIAR_CHAT
         </div>
       </div>
