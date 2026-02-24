@@ -1,5 +1,3 @@
-'use client'
-
 import React from 'react';
 import { pillarsData } from '../data/servicesData';
 import { ScrollReveal } from './ui/ScrollReveal';
@@ -8,7 +6,7 @@ import { PillarCard } from './cards/PillarCard';
 
 const Services: React.FC = () => {
   return (
-    <section id="servicos" className="relative bg-white border-t border-stone-300 pt-8 pb-24 overflow-hidden content-deferred">
+    <section id="servicos" className="relative bg-white border-t border-stone-300 pt-8 pb-24 overflow-hidden content-deferred scroll-mt-24">
       
       {/* Background Grid Pattern */}
       <div className="absolute inset-0 z-0 opacity-[0.03]" 

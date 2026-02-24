@@ -25,7 +25,7 @@ const axioms = [
 
 const PurposeSection: React.FC = () => {
   return (
-    <section id="proposito" className="bg-stone-100 py-16 md:py-20 px-4 border-t border-stone-200 content-deferred relative overflow-hidden">
+    <section id="proposito" className="bg-stone-100 py-16 md:py-20 px-4 border-t border-stone-200 content-deferred relative overflow-hidden scroll-mt-24">
       <div className="absolute top-12 left-0 font-sans font-bold text-[180px] leading-none text-stone-200/40 pointer-events-none select-none hidden md:block">
         ARCAB
       </div>

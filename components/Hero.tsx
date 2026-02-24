@@ -1,43 +1,9 @@
-'use client'
-
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { BrutalistButton } from './ui/BrutalistButton';
 import { ArrowRight } from 'lucide-react';
 
 const Hero: React.FC = () => {
-  const [showDesktopVisual, setShowDesktopVisual] = useState(false);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(min-width: 1024px)');
-    const updateDesktopVisual = () => setShowDesktopVisual(mediaQuery.matches);
-
-    updateDesktopVisual();
-    mediaQuery.addEventListener('change', updateDesktopVisual);
-
-    return () => {
-      mediaQuery.removeEventListener('change', updateDesktopVisual);
-    };
-  }, []);
-
-  const scrollToWithOffset = (id: string) => {
-    const element = document.getElementById(id);
-    if (!element) return;
-
-    const nav = document.querySelector('nav');
-    const navHeight = nav instanceof HTMLElement ? nav.offsetHeight : 0;
-    const y = element.getBoundingClientRect().top + window.pageYOffset - navHeight - 8;
-
-    window.scrollTo({
-      top: Math.max(0, y),
-      behavior: 'smooth',
-    });
-  };
-
-  const scrollToServices = () => {
-    scrollToWithOffset('servicos');
-  };
-
   return (
     <section id="hero" className="relative min-h-[85vh] flex items-center py-20 px-4 max-w-7xl mx-auto overflow-hidden">
       
@@ -58,32 +24,30 @@ const Hero: React.FC = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-              <BrutalistButton onClick={scrollToServices} className="group">
+              <BrutalistButton href="#servicos" className="group">
                 O que fazemos
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </BrutalistButton>
-              <BrutalistButton variant="outline" onClick={() => scrollToWithOffset('contato')}>
+              <BrutalistButton variant="outline" href="#contato">
                 Falar com a ARCAB
               </BrutalistButton>
             </div>
             
         </div>
 
-        <div className="relative hidden lg:block h-full min-h-[560px]" aria-hidden={!showDesktopVisual}>
-          {showDesktopVisual && (
-            <div className="absolute inset-0 flex items-center justify-center">
-              {/* Main image panel */}
-              <div className="relative z-10 w-[660px] h-[440px] border-2 border-eco-dark bg-white shadow-sharp-lg overflow-hidden">
-                <Image
-                  src="/assets/hero-1200.webp"
-                  alt="Equipe colaborando em projeto de dados e software"
-                  fill
-                  sizes="660px"
-                  className="object-cover object-center"
-                />
-              </div>
+        <div className="relative hidden lg:block h-full min-h-[560px]" aria-hidden="true">
+          <div className="absolute inset-0 flex items-center justify-center">
+            {/* Main image panel */}
+            <div className="relative z-10 w-[660px] h-[440px] border-2 border-eco-dark bg-white shadow-sharp-lg overflow-hidden">
+              <Image
+                src="/assets/hero-1200.webp"
+                alt="Equipe colaborando em projeto de dados e software"
+                fill
+                sizes="660px"
+                className="object-cover object-center"
+              />
             </div>
-          )}
+          </div>
         </div>
 
       </div>

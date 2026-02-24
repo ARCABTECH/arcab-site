@@ -13,6 +13,15 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({ children, delay = 0,
   const supportsCSS = useRef<boolean | null>(null);
 
   useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    // On small screens, avoid observer/setup cost and reveal immediately.
+    if (window.matchMedia('(max-width: 767px)').matches) {
+      el.classList.remove('reveal-hidden');
+      return;
+    }
+
     // Check once if browser supports CSS scroll-driven animations
     if (supportsCSS.current === null) {
       supportsCSS.current = CSS.supports('animation-timeline: view()');
@@ -20,17 +29,12 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({ children, delay = 0,
 
     // If CSS handles the animation natively, no JS needed
     if (supportsCSS.current) {
-      if (ref.current) {
-        ref.current.classList.add('reveal-css-native');
-        ref.current.classList.remove('reveal-hidden');
-      }
+      el.classList.add('reveal-css-native');
+      el.classList.remove('reveal-hidden');
       return;
     }
 
     // JS fallback: IntersectionObserver with classList (no re-render)
-    const el = ref.current;
-    if (!el) return;
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

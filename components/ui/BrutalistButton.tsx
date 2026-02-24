@@ -1,16 +1,28 @@
 import React from 'react';
 
-interface BrutalistButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface BrutalistButtonBaseProps {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
   children: React.ReactNode;
   className?: string;
 }
 
-export const BrutalistButton: React.FC<BrutalistButtonProps> = ({ 
+type BrutalistButtonAnchorProps = BrutalistButtonBaseProps &
+  React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+    href: string;
+  };
+
+type BrutalistButtonNativeProps = BrutalistButtonBaseProps &
+  React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    href?: undefined;
+  };
+
+type BrutalistButtonProps = BrutalistButtonAnchorProps | BrutalistButtonNativeProps;
+
+export const BrutalistButton: React.FC<BrutalistButtonProps> = ({
   variant = 'primary', 
   children, 
   className = '',
-  ...props 
+  ...props
 }) => {
   const baseStyles = "px-6 py-3 font-medium text-base transition-all duration-200 border border-eco-dark font-mono uppercase tracking-wide flex items-center justify-center gap-2";
   
@@ -22,8 +34,16 @@ export const BrutalistButton: React.FC<BrutalistButtonProps> = ({
     ghost: "border-transparent hover:bg-stone-100 shadow-none hover:shadow-none",
   };
 
+  if ('href' in props && typeof props.href === 'string') {
+    return (
+      <a className={`${baseStyles} ${variants[variant]} ${className}`} {...props}>
+        {children}
+      </a>
+    );
+  }
+
   return (
-    <button 
+    <button
       className={`${baseStyles} ${variants[variant]} ${className}`}
       {...props}
     >

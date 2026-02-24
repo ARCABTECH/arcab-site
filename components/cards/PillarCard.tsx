@@ -1,6 +1,4 @@
-'use client'
-
-import React, { useState } from 'react';
+import React from 'react';
 import { PillarItem } from '../../data/servicesData';
 import { Hash, Cpu, ScanBarcode } from 'lucide-react';
 import { CornerDecorators } from '../layout/CornerDecorators';
@@ -11,12 +9,12 @@ interface PillarCardProps {
 }
 
 export const PillarCard: React.FC<PillarCardProps> = ({ item, index }) => {
-  const [showAll, setShowAll] = useState(false);
   const serialNumber = (index + 1).toString().padStart(2, '0');
 
   const visibleLimit = 3;
   const hasMore = item.services.length > visibleLimit;
-  const displayedServices = showAll ? item.services : item.services.slice(0, visibleLimit);
+  const displayedServices = item.services.slice(0, visibleLimit);
+  const hiddenServices = item.services.slice(visibleLimit);
   const hiddenCount = item.services.length - visibleLimit;
 
   return (
@@ -73,14 +71,23 @@ export const PillarCard: React.FC<PillarCardProps> = ({ item, index }) => {
               {service.name}
             </span>
           ))}
-          {hasMore && !showAll && (
-            <button
-              type="button"
-              onClick={() => setShowAll(true)}
-              className="inline-flex items-center font-mono text-xs border border-dashed border-stone-300 px-2.5 py-1.5 text-stone-600 hover:border-eco-primary hover:text-eco-primary transition-colors cursor-pointer"
-            >
-              +{hiddenCount}
-            </button>
+          {hasMore && (
+            <details className="group/details">
+              <summary className="inline-flex list-none items-center font-mono text-xs border border-dashed border-stone-300 px-2.5 py-1.5 text-stone-600 hover:border-eco-primary hover:text-eco-primary transition-colors cursor-pointer [&::-webkit-details-marker]:hidden">
+                +{hiddenCount}
+              </summary>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {hiddenServices.map((service) => (
+                  <span
+                    key={service.name}
+                    className="inline-flex items-center gap-1.5 font-mono text-xs border border-stone-300 px-2.5 py-1.5 text-stone-600 group-hover:border-eco-dark group-hover:text-eco-dark transition-colors"
+                  >
+                    <service.icon size={12} strokeWidth={1.5} className="text-stone-400 group-hover:text-eco-primary transition-colors" />
+                    {service.name}
+                  </span>
+                ))}
+              </div>
+            </details>
           )}
         </div>
       </div>

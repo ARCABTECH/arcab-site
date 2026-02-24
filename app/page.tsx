@@ -1,13 +1,15 @@
+import dynamic from 'next/dynamic'
 import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import Services from '@/components/Services'
 import About from '@/components/About'
 import PurposeSection from '@/components/PurposeSection'
-import Contact from '@/components/Contact'
 import Footer from '@/components/Footer'
 import TechMarquee from '@/components/TechMarquee'
 import CustomCursorMount from '@/components/ui/CustomCursorMount'
 import WhatsAppFloat from '@/components/ui/WhatsAppFloat'
+
+const Contact = dynamic(() => import('@/components/Contact'))
 
 export default function Home() {
   return (

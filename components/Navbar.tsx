@@ -37,8 +37,6 @@ const Navbar: React.FC = () => {
                 width={192}
                 height={70}
                 className="h-[51.2px] w-auto transition-opacity duration-200 group-hover:opacity-0"
-                priority
-                fetchPriority="high"
               />
               <Image
                 src="/assets/main-logo-hover.svg"

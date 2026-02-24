@@ -70,7 +70,7 @@ const PillarCard: React.FC<{ pillar: typeof pillars[0] }> = ({ pillar }) => (
 
 const About: React.FC = () => {
   return (
-    <section id="sobre" className="py-24 px-4 bg-eco-dark text-stone-100 relative overflow-hidden content-deferred">
+    <section id="sobre" className="py-24 px-4 bg-eco-dark text-stone-100 relative overflow-hidden content-deferred scroll-mt-24">
       {/* Decorative large text background */}
       <div className="absolute top-20 right-0 font-sans font-bold text-[200px] leading-none text-white/[0.01] pointer-events-none select-none">
         ARCAB

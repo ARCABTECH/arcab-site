@@ -6,7 +6,7 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   weight: ['400', '500', '700'],
   variable: '--font-space-grotesk',
-  display: 'swap',
+  display: 'optional',
   adjustFontFallback: true,
 })
 
@@ -17,6 +17,7 @@ const spaceMono = Space_Mono({
   variable: '--font-space-mono',
   display: 'swap',
   adjustFontFallback: true,
+  preload: false,
 })
 
 export const metadata: Metadata = {
