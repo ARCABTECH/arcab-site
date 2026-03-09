@@ -10,6 +10,7 @@ import {
   Binary, 
   Workflow, 
   AppWindow,
+  MonitorCog,
   Layers,
   Brain,
   Terminal,
@@ -41,8 +42,8 @@ export const pillarsData: PillarItem[] = [
     icon: Layers,
     services: [
       { name: 'Web Scraping', icon: Database },
-      { name: 'ETL & Limpeza', icon: Filter },
-      { name: 'Consultoria de Dados', icon: Briefcase },
+      { name: 'ETL / Pipeline de Dados', icon: Filter },
+      { name: 'Data Strategy / Consultoria em Dados', icon: Briefcase },
     ],
   },
   {
@@ -53,8 +54,8 @@ export const pillarsData: PillarItem[] = [
     description: 'Transformamos dados em decisões. Visualização em tempo real, modelos preditivos e processamento de linguagem natural.',
     icon: Brain,
     services: [
-      { name: 'Dashboards Interativos', icon: LayoutDashboard },
-      { name: 'NLP & IA', icon: MessageSquareText },
+      { name: 'Dashboards / BI', icon: LayoutDashboard },
+      { name: 'NLP & IA Aplicada', icon: MessageSquareText },
       { name: 'Análise Preditiva', icon: LineChart },
     ],
   },
@@ -66,11 +67,12 @@ export const pillarsData: PillarItem[] = [
     description: 'Software sob medida que operacionaliza os dados. ERPs, plataformas SaaS, APIs escaláveis e automação de processos.',
     icon: Terminal,
     services: [
-      { name: 'Sistemas Web (SaaS)', icon: Server },
-      { name: 'APIs Rest & GraphQL', icon: Webhook },
-      { name: 'Web Apps de Dados', icon: Binary },
-      { name: 'Automação (RPA)', icon: Workflow },
+      { name: 'Desenvolvimento de SaaS', icon: Server },
+      { name: 'Desenvolvimento de APIs', icon: Webhook },
+      { name: 'Web Apps / Portal Web', icon: Binary },
+      { name: 'Automação / RPA', icon: Workflow },
       { name: 'Landing Pages', icon: AppWindow },
+      { name: 'Sistema Sob Medida', icon: MonitorCog },
     ],
   },
 ];
