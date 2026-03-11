@@ -4,13 +4,26 @@ import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import Image from 'next/image';
 import { BrutalistButton } from './ui/BrutalistButton';
+import { startLeadJourney, trackEvent } from '@/lib/analytics';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const getDeviceType = (): 'mobile' | 'desktop' =>
+    window.matchMedia('(max-width: 767px)').matches ? 'mobile' : 'desktop';
 
   const scrollTo = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
+      if (id === 'contato') {
+        startLeadJourney('navbar_contact');
+        trackEvent('contact_intent_click', {
+          source: 'navbar',
+          cta_label: 'Fale Conosco',
+          position: isOpen ? 'navbar_mobile_cta' : 'navbar_desktop_cta',
+          page_path: window.location.pathname,
+          device_type: getDeviceType(),
+        });
+      }
       const nav = document.querySelector('nav');
       const navHeight = nav instanceof HTMLElement ? nav.offsetHeight : 0;
       const y = element.getBoundingClientRect().top + window.pageYOffset - navHeight - 8;

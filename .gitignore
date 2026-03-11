@@ -34,3 +34,9 @@ dist-ssr
 
 # Vite (legacy)
 vite.config.ts.timestamp-*
+
+# Analytics
+analytics/python/
+
+# Docs
+docs/

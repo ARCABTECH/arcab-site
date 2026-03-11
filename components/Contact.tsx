@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { BrutalistButton } from './ui/BrutalistButton';
 import { Mail, ArrowRight, Loader2 } from 'lucide-react';
 import { ScrollReveal } from './ui/ScrollReveal';
@@ -20,6 +20,7 @@ import {
   getSubServiceById,
   getSubServicesByArea,
 } from '@/data/serviceFormSchemas';
+import { ensureLeadJourney, getJourneyElapsedMs, trackEvent } from '@/lib/analytics';
 
 type DynamicAnswers = Record<string, string | string[]>;
 
@@ -66,6 +67,10 @@ const formatFieldValue = (field: DynamicFieldSchema, value: string | string[] | 
 };
 
 const Contact: React.FC = () => {
+  const hasAppliedQueryPrefillRef = useRef(false);
+  const contactSectionRef = useRef<HTMLElement | null>(null);
+  const hasTrackedContactViewRef = useRef(false);
+  const hasTrackedContactStartRef = useRef(false);
   const [formState, setFormState] = useState({
     name: '',
     email: '',
@@ -74,6 +79,7 @@ const Contact: React.FC = () => {
     message: ''
   });
   const [dynamicAnswers, setDynamicAnswers] = useState<DynamicAnswers>({});
+  const [requestSource, setRequestSource] = useState('manual');
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [lastSubmissionTime, setLastSubmissionTime] = useState<number | null>(null);
@@ -101,6 +107,7 @@ const Contact: React.FC = () => {
       })),
     []
   );
+  const mainAreaValues = useMemo(() => MAIN_AREAS.map((option) => option.value), []);
   const subServiceOptions = useMemo(
     () =>
       availableSubServices.map((subService) => ({
@@ -110,6 +117,157 @@ const Contact: React.FC = () => {
       })),
     [availableSubServices]
   );
+  const selectedArea = useMemo(
+    () => MAIN_AREAS.find((option) => option.value === formState.mainArea),
+    [formState.mainArea]
+  );
+  const selectedSubServiceLabel = formState.mainArea === 'outro'
+    ? 'Outro tipo de serviço'
+    : selectedSubService?.label;
+  const getDeviceType = useCallback((): 'mobile' | 'desktop' => {
+    if (typeof window === 'undefined') {
+      return 'desktop';
+    }
+    return window.matchMedia('(max-width: 767px)').matches ? 'mobile' : 'desktop';
+  }, []);
+  const getContactEventContext = useCallback(() => ({
+    area: formState.mainArea || 'nao-definida',
+    sub_service: formState.subService || 'nao-definido',
+    source: requestSource,
+    page_path: typeof window !== 'undefined' ? window.location.pathname : '/',
+    device_type: getDeviceType(),
+  }), [formState.mainArea, formState.subService, requestSource, getDeviceType]);
+  const getTimingContext = (eventType: 'view' | 'start' | 'submit') => {
+    const elapsed = getJourneyElapsedMs();
+    if (elapsed === undefined) {
+      return {};
+    }
+    if (eventType === 'view') {
+      return { time_to_contact_view_ms: elapsed };
+    }
+    if (eventType === 'start') {
+      return { time_to_contact_start_ms: elapsed };
+    }
+    return { time_to_submit_ms: elapsed };
+  };
+  const trackContactStart = () => {
+    if (hasTrackedContactStartRef.current) {
+      return;
+    }
+    ensureLeadJourney('contact_start');
+    trackEvent('contact_start', {
+      ...getContactEventContext(),
+      ...getTimingContext('start'),
+    });
+    hasTrackedContactStartRef.current = true;
+  };
+  const trackSubmitError = (
+    errorType:
+      | 'rate_limit'
+      | 'validation_required_fields'
+      | 'validation_missing_subservice'
+      | 'validation_dynamic_field'
+      | 'provider_rejected'
+      | 'network_or_runtime',
+    options?: {
+      details?: string;
+      errorField?: string;
+      errorStage?: 'validation' | 'provider' | 'network';
+      isRecoverable?: boolean;
+    }
+  ) => {
+    ensureLeadJourney('contact_error');
+    trackEvent('contact_submit_error', {
+      ...getContactEventContext(),
+      ...getTimingContext('submit'),
+      error_type: errorType,
+      error_detail: options?.details,
+      error_field: options?.errorField,
+      error_stage: options?.errorStage,
+      is_recoverable: options?.isRecoverable,
+    });
+  };
+
+  useEffect(() => {
+    if (hasAppliedQueryPrefillRef.current) {
+      return;
+    }
+
+    const queryParams = new URLSearchParams(window.location.search);
+    const areaParam = queryParams.get('area');
+    const subParam = queryParams.get('sub');
+    const sourceParam = queryParams.get('src');
+    const isValidArea = Boolean(areaParam && mainAreaValues.includes(areaParam as MainAreaId));
+    const hadServiceParams = queryParams.has('area') || queryParams.has('sub') || queryParams.has('src');
+
+    const clearServiceQueryParams = () => {
+      if (!hadServiceParams) {
+        return;
+      }
+
+      queryParams.delete('area');
+      queryParams.delete('sub');
+      queryParams.delete('src');
+
+      const nextSearch = queryParams.toString();
+      const nextUrl = `${window.location.pathname}${nextSearch ? `?${nextSearch}` : ''}${window.location.hash}`;
+      window.history.replaceState(window.history.state, '', nextUrl);
+    };
+
+    if (sourceParam) {
+      setRequestSource(sourceParam);
+    }
+
+    if (!isValidArea || !areaParam) {
+      clearServiceQueryParams();
+      hasAppliedQueryPrefillRef.current = true;
+      return;
+    }
+
+    let subService = '';
+    if (subParam && areaParam !== 'outro') {
+      const resolvedSubService = getSubServiceById(subParam);
+      if (resolvedSubService && resolvedSubService.area === areaParam) {
+        subService = resolvedSubService.id;
+      }
+    }
+
+    setFormState((prev) => ({
+      ...prev,
+      mainArea: areaParam,
+      subService,
+    }));
+    setDynamicAnswers({});
+    clearServiceQueryParams();
+    hasAppliedQueryPrefillRef.current = true;
+  }, [mainAreaValues]);
+
+  useEffect(() => {
+    if (!contactSectionRef.current || hasTrackedContactViewRef.current) {
+      return;
+    }
+
+    const section = contactSectionRef.current;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (!entry?.isIntersecting || hasTrackedContactViewRef.current) {
+          return;
+        }
+        ensureLeadJourney('contact_view');
+        trackEvent('contact_view', {
+          ...getContactEventContext(),
+          ...getTimingContext('view'),
+        });
+        hasTrackedContactViewRef.current = true;
+        observer.disconnect();
+      },
+      { threshold: 0.35 }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, [getContactEventContext]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormState({
@@ -242,6 +400,11 @@ const Contact: React.FC = () => {
     const now = Date.now();
     if (lastSubmissionTime && (now - lastSubmissionTime) < RATE_LIMIT_MS) {
       const remainingSeconds = Math.ceil((RATE_LIMIT_MS - (now - lastSubmissionTime)) / 1000);
+      trackSubmitError('rate_limit', {
+        details: `remaining_seconds:${remainingSeconds}`,
+        errorStage: 'validation',
+        isRecoverable: true,
+      });
       showToast(
         `Aguarde ${remainingSeconds} segundo${remainingSeconds > 1 ? 's' : ''} antes de enviar novamente.`,
         'error'
@@ -251,11 +414,20 @@ const Contact: React.FC = () => {
 
     // Validação básica
     if (!formState.name || !formState.email || !formState.mainArea || !formState.message) {
+      trackSubmitError('validation_required_fields', {
+        errorStage: 'validation',
+        isRecoverable: true,
+      });
       showToast('Por favor, preencha todos os campos.', 'error');
       return;
     }
 
     if (formState.mainArea !== 'outro' && !formState.subService) {
+      trackSubmitError('validation_missing_subservice', {
+        errorStage: 'validation',
+        errorField: 'subService',
+        isRecoverable: true,
+      });
       showToast('Selecione um subserviço antes de enviar.', 'error');
       return;
     }
@@ -265,6 +437,12 @@ const Contact: React.FC = () => {
     );
 
     if (firstMissingField) {
+      trackSubmitError('validation_dynamic_field', {
+        details: firstMissingField.id,
+        errorField: firstMissingField.id,
+        errorStage: 'validation',
+        isRecoverable: true,
+      });
       showToast(`Preencha o campo "${firstMissingField.label}".`, 'error');
       return;
     }
@@ -332,6 +510,11 @@ const Contact: React.FC = () => {
       const data = await response.json();
 
       if (data.success) {
+        ensureLeadJourney('contact_submit');
+        trackEvent('contact_submit', {
+          ...getContactEventContext(),
+          ...getTimingContext('submit'),
+        });
         showToast('Mensagem enviada com sucesso! Entraremos em contato em breve.', 'success');
         setLastSubmissionTime(Date.now());
         
@@ -344,7 +527,13 @@ const Contact: React.FC = () => {
           message: ''
         });
         setDynamicAnswers({});
+        hasTrackedContactStartRef.current = false;
       } else {
+        trackSubmitError('provider_rejected', {
+          details: data.message,
+          errorStage: 'provider',
+          isRecoverable: true,
+        });
         showToast(
           data.message || 'Erro ao enviar mensagem. Por favor, tente novamente.',
           'error'
@@ -354,6 +543,11 @@ const Contact: React.FC = () => {
       if (process.env.NODE_ENV !== 'production') {
         console.error('Error submitting form:', error);
       }
+      trackSubmitError('network_or_runtime', {
+        details: error instanceof Error ? error.message : 'unknown',
+        errorStage: 'network',
+        isRecoverable: true,
+      });
       showToast('Erro ao enviar mensagem. Por favor, tente novamente mais tarde.', 'error');
     } finally {
       setIsSubmitting(false);
@@ -361,7 +555,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contato" className="py-24 px-4 bg-white border-t border-stone-200 relative z-10 scroll-mt-24">
+    <section id="contato" ref={contactSectionRef} className="py-24 px-4 bg-white border-t border-stone-200 relative z-10 scroll-mt-24">
       <div className="max-w-5xl mx-auto">
         
         <ScrollReveal>
@@ -379,7 +573,12 @@ const Contact: React.FC = () => {
         <ScrollReveal delay={200}>
           <div className="bg-stone-50 border border-stone-200 p-8 md:p-12 relative shadow-sharp-lg">
             <CornerDecorators size="md" color="border-eco-dark" hoverColor="" />
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+            <form
+              onSubmit={handleSubmit}
+              onFocusCapture={trackContactStart}
+              onPointerDownCapture={trackContactStart}
+              className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12"
+            >
               
               <div className="space-y-6">
                 <FormField
@@ -428,6 +627,18 @@ const Contact: React.FC = () => {
                   required={formState.mainArea !== 'outro'}
                   disabled={!formState.mainArea || formState.mainArea === 'outro'}
                 />
+
+                {selectedArea && (
+                  <div className="border border-stone-200 bg-transparent p-3 text-xs font-mono text-stone-600">
+                    Solicitação em contexto: <span className="font-bold text-eco-dark">{selectedArea.label}</span>
+                    {selectedSubServiceLabel ? (
+                      <>
+                        {' > '}
+                        <span className="font-bold text-eco-dark">{selectedSubServiceLabel}</span>
+                      </>
+                    ) : null}
+                  </div>
+                )}
               </div>
 
               <div className="flex flex-col justify-between">

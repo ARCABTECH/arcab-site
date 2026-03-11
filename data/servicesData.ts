@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 
 export interface SubService {
+  id: string;
   name: string;
   icon: LucideIcon;
 }
@@ -41,9 +42,9 @@ export const pillarsData: PillarItem[] = [
     description: 'Coleta, tratamento e estruturação dos dados brutos. Pipelines robustos, governança e arquitetura de dados do zero.',
     icon: Layers,
     services: [
-      { name: 'Web Scraping', icon: Database },
-      { name: 'ETL / Pipeline de Dados', icon: Filter },
-      { name: 'Data Strategy / Consultoria em Dados', icon: Briefcase },
+      { id: 'web-scraping', name: 'Web Scraping', icon: Database },
+      { id: 'etl-pipeline', name: 'ETL / Pipeline de Dados', icon: Filter },
+      { id: 'data-strategy', name: 'Data Strategy / Consultoria em Dados', icon: Briefcase },
     ],
   },
   {
@@ -54,9 +55,9 @@ export const pillarsData: PillarItem[] = [
     description: 'Transformamos dados em decisões. Visualização em tempo real, modelos preditivos e processamento de linguagem natural.',
     icon: Brain,
     services: [
-      { name: 'Dashboards / BI', icon: LayoutDashboard },
-      { name: 'NLP & IA Aplicada', icon: MessageSquareText },
-      { name: 'Análise Preditiva', icon: LineChart },
+      { id: 'dashboard-bi', name: 'Dashboards / BI', icon: LayoutDashboard },
+      { id: 'nlp-ia', name: 'NLP & IA Aplicada', icon: MessageSquareText },
+      { id: 'predictive-analysis', name: 'Análise Preditiva', icon: LineChart },
     ],
   },
   {
@@ -67,12 +68,12 @@ export const pillarsData: PillarItem[] = [
     description: 'Software sob medida que operacionaliza os dados. ERPs, plataformas SaaS, APIs escaláveis e automação de processos.',
     icon: Terminal,
     services: [
-      { name: 'Desenvolvimento de SaaS', icon: Server },
-      { name: 'Desenvolvimento de APIs', icon: Webhook },
-      { name: 'Web Apps / Portal Web', icon: Binary },
-      { name: 'Automação / RPA', icon: Workflow },
-      { name: 'Landing Pages', icon: AppWindow },
-      { name: 'Sistema Sob Medida', icon: MonitorCog },
+      { id: 'saas-development', name: 'Desenvolvimento de SaaS', icon: Server },
+      { id: 'api-development', name: 'Desenvolvimento de APIs', icon: Webhook },
+      { id: 'web-apps', name: 'Web Apps / Portal Web', icon: Binary },
+      { id: 'automation-rpa', name: 'Automação / RPA', icon: Workflow },
+      { id: 'landing-pages', name: 'Landing Pages', icon: AppWindow },
+      { id: 'custom-system', name: 'Sistema Sob Medida', icon: MonitorCog },
     ],
   },
 ];

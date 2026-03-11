@@ -1,7 +1,11 @@
+'use client';
+
 import React from 'react';
 import { PillarItem } from '../../data/servicesData';
 import { Hash, Cpu, ScanBarcode } from 'lucide-react';
 import { CornerDecorators } from '../layout/CornerDecorators';
+import { BrutalistButton } from '../ui/BrutalistButton';
+import { startLeadJourney, trackEvent } from '@/lib/analytics';
 
 interface PillarCardProps {
   item: PillarItem;
@@ -10,6 +14,46 @@ interface PillarCardProps {
 
 export const PillarCard: React.FC<PillarCardProps> = ({ item, index }) => {
   const serialNumber = (index + 1).toString().padStart(2, '0');
+  const getDeviceType = (): 'mobile' | 'desktop' => {
+    if (typeof window === 'undefined') {
+      return 'desktop';
+    }
+    return window.matchMedia('(max-width: 767px)').matches ? 'mobile' : 'desktop';
+  };
+  const buildContactHref = (subServiceId?: string): string => {
+    const params = new URLSearchParams({
+      area: item.id,
+      src: subServiceId ? 'services-subservice' : 'services-pillar',
+    });
+    if (subServiceId) {
+      params.set('sub', subServiceId);
+    }
+    return `/?${params.toString()}#contato`;
+  };
+  const handlePillarCtaClick = () => {
+    startLeadJourney('services_pillar');
+    trackEvent('service_cta_click', {
+      area: item.id,
+      cta_label: 'Solicitar este serviço',
+      position: 'services_card_footer',
+      source: 'services',
+      page_path: typeof window !== 'undefined' ? window.location.pathname : '/',
+      device_type: getDeviceType(),
+    });
+  };
+  const handleSubServiceClick = (subServiceId: string) => {
+    const selectedService = item.services.find((service) => service.id === subServiceId);
+    startLeadJourney('services_subservice');
+    trackEvent('subservice_cta_click', {
+      area: item.id,
+      sub_service: subServiceId,
+      cta_label: selectedService?.name || subServiceId,
+      position: 'services_card_tag',
+      source: 'services',
+      page_path: typeof window !== 'undefined' ? window.location.pathname : '/',
+      device_type: getDeviceType(),
+    });
+  };
 
   const visibleLimit = 3;
   const hasMore = item.services.length > visibleLimit;
@@ -63,13 +107,16 @@ export const PillarCard: React.FC<PillarCardProps> = ({ item, index }) => {
       <div className="mt-6 pt-4 border-t border-stone-200">
         <div className="flex flex-wrap gap-2">
           {displayedServices.map((service) => (
-            <span
-              key={service.name}
-              className="inline-flex items-center gap-1.5 font-mono text-xs border border-stone-300 px-2.5 py-1.5 text-stone-600 group-hover:border-eco-dark group-hover:text-eco-dark transition-colors"
+            <a
+              key={service.id}
+              href={buildContactHref(service.id)}
+              className="inline-flex items-center gap-1.5 font-mono text-xs border border-stone-300 px-2.5 py-1.5 text-stone-600 group-hover:border-eco-dark group-hover:text-eco-dark transition-colors hover:border-eco-primary hover:text-eco-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-eco-primary focus-visible:ring-offset-2 focus-visible:ring-offset-stone-50"
+              aria-label={`Solicitar ${service.name} em ${item.title}`}
+              onClick={() => handleSubServiceClick(service.id)}
             >
               <service.icon size={12} strokeWidth={1.5} className="text-stone-400 group-hover:text-eco-primary transition-colors" />
               {service.name}
-            </span>
+            </a>
           ))}
           {hasMore && (
             <details className="group/details">
@@ -78,18 +125,33 @@ export const PillarCard: React.FC<PillarCardProps> = ({ item, index }) => {
               </summary>
               <div className="mt-2 flex flex-wrap gap-2">
                 {hiddenServices.map((service) => (
-                  <span
-                    key={service.name}
-                    className="inline-flex items-center gap-1.5 font-mono text-xs border border-stone-300 px-2.5 py-1.5 text-stone-600 group-hover:border-eco-dark group-hover:text-eco-dark transition-colors"
+                  <a
+                    key={service.id}
+                    href={buildContactHref(service.id)}
+                    className="inline-flex items-center gap-1.5 font-mono text-xs border border-stone-300 px-2.5 py-1.5 text-stone-600 group-hover:border-eco-dark group-hover:text-eco-dark transition-colors hover:border-eco-primary hover:text-eco-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-eco-primary focus-visible:ring-offset-2 focus-visible:ring-offset-stone-50"
+                    aria-label={`Solicitar ${service.name} em ${item.title}`}
+                    onClick={() => handleSubServiceClick(service.id)}
                   >
                     <service.icon size={12} strokeWidth={1.5} className="text-stone-400 group-hover:text-eco-primary transition-colors" />
                     {service.name}
-                  </span>
+                  </a>
                 ))}
               </div>
             </details>
           )}
         </div>
+      </div>
+
+      <div className="mt-4">
+        <BrutalistButton
+          href={buildContactHref()}
+          variant="outline"
+          className="w-full justify-between text-xs sm:text-sm"
+          aria-label={`Solicitar serviço de ${item.title}`}
+          onClick={handlePillarCtaClick}
+        >
+          Solicitar este serviço
+        </BrutalistButton>
       </div>
 
       {/* Technical Footer */}

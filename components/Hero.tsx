@@ -1,9 +1,23 @@
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
 import { BrutalistButton } from './ui/BrutalistButton';
 import { ArrowRight } from 'lucide-react';
+import { startLeadJourney, trackEvent } from '@/lib/analytics';
 
 const Hero: React.FC = () => {
+  const handleHeroContactClick = () => {
+    startLeadJourney('hero_contact');
+    trackEvent('contact_intent_click', {
+      source: 'hero',
+      cta_label: 'Falar com a ARCAB',
+      position: 'hero_secondary_cta',
+      page_path: typeof window !== 'undefined' ? window.location.pathname : '/',
+      device_type: typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches ? 'mobile' : 'desktop',
+    });
+  };
+
   return (
     <section id="hero" className="relative min-h-[85vh] flex items-center py-20 px-4 max-w-7xl mx-auto overflow-hidden">
       
@@ -28,7 +42,7 @@ const Hero: React.FC = () => {
                 O que fazemos
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </BrutalistButton>
-              <BrutalistButton variant="outline" href="#contato">
+              <BrutalistButton variant="outline" href="#contato" onClick={handleHeroContactClick}>
                 Falar com a ARCAB
               </BrutalistButton>
             </div>

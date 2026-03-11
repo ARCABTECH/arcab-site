@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { pillarsData } from '../data/servicesData';
 import { ScrollReveal } from './ui/ScrollReveal';

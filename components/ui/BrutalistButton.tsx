@@ -30,7 +30,7 @@ export const BrutalistButton: React.FC<BrutalistButtonProps> = ({
     primary: "bg-eco-accent text-eco-dark shadow-sharp hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-sharp-hover",
     // Updated secondary to have green hover effect
     secondary: "bg-eco-dark text-white shadow-sharp hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-sharp-hover hover:bg-eco-accent hover:text-eco-dark hover:border-eco-accent",
-    outline: "bg-transparent text-eco-dark hover:bg-eco-dark hover:text-white",
+    outline: "bg-transparent text-eco-dark border-eco-dark shadow-sharp hover:bg-eco-accent hover:text-eco-dark hover:border-eco-dark hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-sharp-hover",
     ghost: "border-transparent hover:bg-stone-100 shadow-none hover:shadow-none",
   };
 
