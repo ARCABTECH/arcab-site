@@ -166,7 +166,7 @@ export const trackEvent = (eventName: string, payload: EventPayload = {}): void 
   const mergedPayload = sanitizePayload({
     ...payload,
     ...acquisition,
-    session_id: sessionId,
+    arcab_session_id: sessionId,
     ...journey,
   });
 
